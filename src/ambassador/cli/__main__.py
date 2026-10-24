@@ -122,8 +122,8 @@ async def play(
         )
         points = game["scoring"]
         print(
-            f"İyi cevap: {points['answered']:+d}, kısmi: {points['partial']:+d}, "
-            f"yuvarlak: {points['vague']:+d}, çok kötü: {points['missed']:+d} yüzde puan."
+            f"Cevap, itirazı karşılama düzeyine göre {points['minimum']:+d} ile "
+            f"{points['maximum']:+d} yüzde puan arasında değerlendirilir."
         )
         while game["phase"] != "finished":
             show_faceoff(game)

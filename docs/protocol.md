@@ -31,11 +31,11 @@ The client submits commands only, never round numbers, personas, objections, gra
 Fields: `api_version`, `game_id`, `version`, `scenario`, `phase`, `rounds_completed`, `total_rounds`, `round_number`, `support_percent`, `target_percent`, `scoring`, `current_objections`, `history`, `allowed_actions`, `outcome`.
 
 - `scenario`: `id`, `title_tr`, `decree_tr`, `public_facts_tr`, `visual_effect` (nullable), `starting_support`, `target_support`, `rounds`. The catalog uses the same view without private concern examples.
-- `phase`: `faceoff` or `finished`. The game lasts its configured number of answers (four for toothbrushing, three for the other reforms), even if the target is reached early.
+- `phase`: `faceoff` or `finished`. The game lasts its configured number of answers (four for toothbrushing, abolishing nobility and freedom of expression; three for the others), even if the target is reached early.
 - `round_number`: 1-based current round, null when finished.
 - `support_percent`: engine-controlled integer 0-100. Starts at 30 by default; this is aggregate public support, not individual votes.
 - `target_percent`: selected reform's target, used only for the official final outcome.
-- `scoring`: `{answered: 20, partial: 5, vague: -10, missed: -20}` by default; these are percentage-point changes per objection.
+- `scoring`: `{minimum: -20, maximum: 20}`; these bound the integer score per objection, not fixed grade buckets.
 - `current_objections`: one Objection object during a faceoff by default, empty after finishing.
 - `history`: completed Round objects, sufficient to restore a reconnecting client.
 - `allowed_actions`: `["submit_answer"]` during play, `[]` after finishing.
@@ -43,26 +43,19 @@ Fields: `api_version`, `game_id`, `version`, `scenario`, `phase`, `rounds_comple
 
 Objection: `{objection_id, persona_id, name_tr, text_tr}`. Each `text_tr` is one short Turkish sentence of at most 180 characters. There is one objection per selected distinct persona. The engine assigns stable IDs within the game/round, for example `r2-o1`. The same persona can appear again in later rounds. Persona profiles, interests and example lists are private configuration and are never serialized in GameView.
 
-Round: `{round_number, objections, answer, assessments, feedback_tr, support_before, support_after, support_delta}`. Each assessment is `{objection_id, quality}` and matches a displayed objection in order. Quality labels are `answered`, `partial`, `vague`, `missed`. The model proposes these labels; the engine validates exact ID coverage and calculates support. `feedback_tr` is one short Turkish sentence for the whole answer. The UI need not show the assessment array; it can display just feedback and the aggregate change.
+Round: `{round_number, objections, answer, assessments, feedback_tr, support_before, support_after, support_delta}`. Each assessment is `{objection_id, score}` and matches a displayed objection in order. `score` is a strict integer from -20 to 20. The model proposes it; the engine validates bounds and exact ID coverage, then calculates support. Booleans, strings, floats and out-of-range values fail the operation. `feedback_tr` is one short Turkish sentence for the whole answer. The UI need not show the assessment array; it can display just feedback and the aggregate change.
 
 TurnResult: `{api_version, request_id, round, game}`. Display feedback and percentage-point change first, then `game.current_objections` for the next faceoff. No extra narrator or individual reaction feed is required. The final result has no next objections.
 
 ## Scoring
 
-For each current objection, look up its quality's configured points. Take the arithmetic mean and round to the nearest integer using Python's `round`. Clamp resulting support to 0-100. `support_delta` is the actual change after clamping, so 95 plus a requested 20 yields 100 and a displayed delta of +5. One vs three objections never changes the overall scoring range. Examples:
+Take the arithmetic mean of the current objections' integer scores and round to the nearest integer using Python's `round`. With the current single-objection setup this is exactly the proposed score. Clamp resulting support to 0-100. `support_delta` is the actual change after clamping: support 95 with score 20 yields support 100 and displayed delta +5. Score 0 leaves support unchanged but still consumes the completed round.
 
-| Grades | Delta before clamping |
-| --- | --- |
-| answered | +20 |
-| answered, answered, answered | +20 |
-| answered, missed | 0 |
-| answered, partial, missed | +2 |
-| vague | -10 |
-| missed, missed, missed | -20 |
+Scores measure coverage of the actual objection: -20 is completely unrelated or harmful; negative intermediate scores reflect evasion or a merely topical answer; 0 reflects no clear progress; +1 to +10 reflects partial coverage; +11 to +19 reflects substantial to near-complete coverage. +20 is reserved for explicit complete resolution. A gift or proposal that addresses another problem may fail. The evaluator must not invent crucial missing solution details to give full credit, or invent unrelated obstacles to deny it. Feedback explains the same coverage judgment in one sentence.
 
-A concrete, relevant mechanism resolving the central concern earns `answered`; a concrete step leaving an important part unresolved earns `partial`. Reassurance without a usable action is `vague` and loses support. Random text, instruction overrides, glaring contradictions, harmful non-solutions and cancelling the reform are `missed`. A valid short solution does not need documentary proof or a complete funding plan. Hole-poking concerns the proposal's own logic, never an invented unrelated hurdle. Winning is `support_percent >= target_percent` after the last answer.
+The catalog exposes each reform's starting support, target and round count. Clients must use those returned values instead of hardcoded defaults. Toothbrushing, nobility and expression have four rounds; the rest have three. Winning is `support_percent >= target_percent` after the last answer.
 
-The catalog exposes each reform's starting support, target and round count before creation. Clients must use these returned values rather than hardcode 30%, 60% or three rounds. Refer to the README table for the approved topic-specific balances. The `vague` label is a new v2 enum value; update Unity DTOs accordingly.
+Contract migration within v2: `assessments[].quality` is removed and replaced by `assessments[].score`; the four named `scoring` fields are replaced by `minimum` and `maximum`. Update Unity/client DTOs before using this revision. No client-supplied score is accepted in AnswerCommand.
 
 ## Errors and retries
 

@@ -48,12 +48,7 @@ def create_app(service: GameService | None = None, settings: Settings | None = N
             evaluator = OpenAIEvaluator(client, settings.openai_model, settings.max_output_tokens)
         scenarios = []
         for scenario in load_scenarios():
-            overrides = {
-                "answered_points": settings.answered_points,
-                "partial_points": settings.partial_points,
-                "vague_points": settings.vague_points,
-                "missed_points": settings.missed_points,
-            }
+            overrides = {}
             for name, value in (
                 ("starting_support", settings.starting_support),
                 ("target_support", settings.target_support),

@@ -16,10 +16,6 @@ class Settings(BaseSettings):
     starting_support: int | None = Field(default=None, ge=0, le=100)
     target_support: int | None = Field(default=None, ge=1, le=100)
     max_rounds: int | None = Field(default=None, ge=1, le=10)
-    answered_points: int = Field(default=20, ge=1, le=100)
-    partial_points: int = Field(default=5, ge=0, le=100)
-    vague_points: int = Field(default=-10, ge=-100, le=-1)
-    missed_points: int = Field(default=-20, ge=-100, le=-1)
     provider_timeout_seconds: float = Field(default=30, gt=0)
     turn_timeout_seconds: float = Field(default=75, gt=0)
     max_output_tokens: int = Field(default=1200, ge=256)
@@ -37,8 +33,4 @@ class Settings(BaseSettings):
             raise ValueError("OpenAI mode requires OPENAI_API_KEY and explicit OPENAI_MODEL")
         if self.objections_min > self.objections_max:
             raise ValueError("OBJECTIONS_MIN cannot exceed OBJECTIONS_MAX")
-        if self.partial_points >= self.answered_points:
-            raise ValueError("PARTIAL_POINTS must be less than ANSWERED_POINTS")
-        if self.missed_points >= self.vague_points:
-            raise ValueError("MISSED_POINTS must be less than VAGUE_POINTS")
         return self

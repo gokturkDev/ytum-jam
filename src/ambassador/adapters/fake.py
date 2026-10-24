@@ -1,4 +1,3 @@
-from ambassador.domain.game import Quality
 from ambassador.ports.evaluator import (
     AnswerDecision,
     AssessmentProposal,
@@ -9,7 +8,7 @@ from ambassador.ports.evaluator import (
 
 
 class FakeEvaluator:
-    """Scripted integration demo, not AI persuasion: partial, answered, missed."""
+    """Scripted integration demo, not AI persuasion: +5, +20, -20."""
 
     async def generate(self, context: FaceoffContext) -> ObjectionBatch:
         number = len(context.game.history)
@@ -27,16 +26,15 @@ class FakeEvaluator:
         )
 
     async def evaluate(self, context: FaceoffContext) -> AnswerDecision:
-        quality = (Quality.PARTIAL, Quality.ANSWERED, Quality.MISSED)[len(context.game.history) % 3]
+        score = (5, 20, -20)[len(context.game.history) % 3]
         return AnswerDecision(
             assessments=[
-                AssessmentProposal(objection_id=o.id, quality=quality)
+                AssessmentProposal(objection_id=o.id, score=score)
                 for o in context.game.current_objections
             ],
             feedback_tr={
-                Quality.ANSWERED: "Bu çözüm günlük işleri kolaylaştıracak, halk reforma ısındı!",
-                Quality.PARTIAL: "Öneriniz bir başlangıç, halk nasıl uygulanacağını merak ediyor!",
-                Quality.VAGUE: "Nasıl yapacağımızı söylemeden rahatlamamızı bekliyorsunuz!",
-                Quality.MISSED: "Bu cevap sorunu çözmek yerine görmezden geliyor!",
-            }[quality],
+                20: "Bu çözüm günlük işleri kolaylaştıracak, halk reforma ısındı!",
+                5: "Öneriniz bir başlangıç, halk nasıl uygulanacağını merak ediyor!",
+                -20: "Bu cevap sorunu çözmek yerine görmezden geliyor!",
+            }[score],
         )

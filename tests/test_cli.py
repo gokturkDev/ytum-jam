@@ -14,7 +14,6 @@ from ambassador.adapters.fake import FakeEvaluator
 from ambassador.api.app import create_app
 from ambassador.cli.__main__ import command
 from ambassador.config import Settings
-from ambassador.domain.game import Quality
 from ambassador.scenarios.loader import load_scenarios
 
 
@@ -54,7 +53,7 @@ def test_shipped_cli_readable_faceoff(live_server, service, win):
             async def evaluate(self, context):
                 decision = await super().evaluate(context)
                 for a in decision.assessments:
-                    a.quality = Quality.ANSWERED
+                    a.score = 20
                 return decision
 
         service.evaluator = Good()

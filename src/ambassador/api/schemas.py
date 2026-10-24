@@ -3,7 +3,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from ambassador.domain.game import Game, Objection, Phase, Quality, Round, Scenario, VisualEffect
+from ambassador.domain.game import Game, Objection, Phase, Round, Scenario, VisualEffect
 from ambassador.ports.repository import CommandResult
 
 
@@ -59,7 +59,7 @@ class ObjectionView(DTO):
 
 class AssessmentView(DTO):
     objection_id: str
-    quality: Quality
+    score: int = Field(ge=-20, le=20)
 
 
 class RoundView(DTO):
@@ -74,10 +74,8 @@ class RoundView(DTO):
 
 
 class ScoringView(DTO):
-    answered: int
-    partial: int
-    vague: int
-    missed: int
+    minimum: Literal[-20] = -20
+    maximum: Literal[20] = 20
 
 
 class Outcome(DTO):
@@ -136,7 +134,7 @@ def round_view(r: Round) -> RoundView:
         objections=[objection_view(o) for o in r.objections],
         answer=r.answer,
         assessments=[
-            AssessmentView(objection_id=a.objection_id, quality=a.quality) for a in r.assessments
+            AssessmentView(objection_id=a.objection_id, score=a.score) for a in r.assessments
         ],
         feedback_tr=r.feedback_tr,
         support_before=r.support_before,
@@ -194,12 +192,7 @@ def game_view(game: Game) -> GameView:
         round_number=None if finished else len(game.history) + 1,
         support_percent=game.support_percent,
         target_percent=game.rules.target_support,
-        scoring=ScoringView(
-            answered=game.rules.answered_points,
-            partial=game.rules.partial_points,
-            vague=game.rules.vague_points,
-            missed=game.rules.missed_points,
-        ),
+        scoring=ScoringView(),
         current_objections=[objection_view(o) for o in game.current_objections],
         history=[round_view(r) for r in game.history],
         allowed_actions=[] if finished else ["submit_answer"],

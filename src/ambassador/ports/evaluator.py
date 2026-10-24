@@ -3,7 +3,7 @@ from typing import Annotated, Protocol
 
 from pydantic import AfterValidator, BaseModel, ConfigDict, Field
 
-from ambassador.domain.game import Game, Persona, Quality
+from ambassador.domain.game import MAX_SCORE, MIN_SCORE, Game, Persona
 
 
 def one_sentence(value: str) -> str:
@@ -32,7 +32,16 @@ class ObjectionBatch(Output):
 
 class AssessmentProposal(Output):
     objection_id: str
-    quality: Quality
+    score: int = Field(
+        ge=MIN_SCORE,
+        le=MAX_SCORE,
+        strict=True,
+        description=(
+            "Integer from -20 to 20 measuring how fully this answer resolves this exact "
+            "objection; use intermediate values. +20 is rare and requires explicit complete "
+            "coverage without inventing missing solution details."
+        ),
+    )
 
 
 class AnswerDecision(Output):

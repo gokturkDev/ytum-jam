@@ -4,7 +4,6 @@ from uuid import uuid4
 import pytest
 
 from ambassador.adapters.fake import FakeEvaluator
-from ambassador.domain.game import Quality
 
 
 def body(version, text="Pasta ve halay benden!"):
@@ -61,19 +60,19 @@ async def test_http_faceoff_complete_and_replay(client):
 
 
 @pytest.mark.parametrize(
-    "quality,expected,won",
+    "score,expected,won",
     [
-        (Quality.PARTIAL, 45, False),
-        (Quality.MISSED, 0, False),
-        (Quality.ANSWERED, 90, True),
+        (5, 45, False),
+        (-20, 0, False),
+        (20, 90, True),
     ],
 )
-async def test_threshold_and_both_endings(client, service, quality, expected, won):
+async def test_threshold_and_both_endings(client, service, score, expected, won):
     class Fixed(FakeEvaluator):
         async def evaluate(self, context):
             decision = await super().evaluate(context)
             for a in decision.assessments:
-                a.quality = quality
+                a.score = score
             return decision
 
     service.evaluator = Fixed()
@@ -97,7 +96,7 @@ async def test_threshold_and_both_endings(client, service, quality, expected, wo
         {"expected_version": "0"},
         {"request_id": "invalid"},
         {"support_percent": 100},
-        {"quality": "answered"},
+        {"score": 20},
     ],
 )
 async def test_invalid_input_no_provider_calls(client, service, update):

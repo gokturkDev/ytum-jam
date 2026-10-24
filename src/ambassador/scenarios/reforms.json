@@ -74,7 +74,7 @@
     "rules": {
       "starting_support": 10,
       "target_support": 70,
-      "rounds": 3
+      "rounds": 4
     }
   },
   {
@@ -227,7 +227,7 @@
     "rules": {
       "starting_support": 20,
       "target_support": 80,
-      "rounds": 3
+      "rounds": 4
     }
   },
   {

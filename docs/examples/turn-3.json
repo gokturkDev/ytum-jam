@@ -15,7 +15,7 @@
     "assessments": [
       {
         "objection_id": "r3-o1",
-        "quality": "missed"
+        "score": -20
       }
     ],
     "feedback_tr": "Bu cevap sorunu çözmek yerine görmezden geliyor!",
@@ -25,7 +25,7 @@
   },
   "game": {
     "api_version": "2",
-    "game_id": "dad37d16-fd6e-4ef3-96b6-75c96de3c084",
+    "game_id": "29420241-bad2-46f3-a555-f138eb9b7638",
     "version": 3,
     "scenario": {
       "id": "toothbrushing_v1",
@@ -51,17 +51,15 @@
     "support_percent": 15,
     "target_percent": 80,
     "scoring": {
-      "answered": 20,
-      "partial": 5,
-      "vague": -10,
-      "missed": -20
+      "minimum": -20,
+      "maximum": 20
     },
     "current_objections": [
       {
         "objection_id": "r4-o1",
-        "persona_id": "ayse",
-        "name_tr": "Ayşe",
-        "text_tr": "Dişlerimi yıllardır suyla çalkalıyorum, bir de fırçaya neden para vereyim?"
+        "persona_id": "cem",
+        "name_tr": "Cem",
+        "text_tr": "Bir kere öğrenince yaparım ama bu malzemeyi her zaman bulabilecek miyim?"
       }
     ],
     "history": [
@@ -70,16 +68,16 @@
         "objections": [
           {
             "objection_id": "r1-o1",
-            "persona_id": "hasan",
-            "name_tr": "Hasan",
-            "text_tr": "Fırça benim değilse ağzıma sürmek istemem, herkese ayrı mı verilecek?"
+            "persona_id": "cem",
+            "name_tr": "Cem",
+            "text_tr": "Bir kere öğrenince yaparım ama bu malzemeyi her zaman bulabilecek miyim?"
           }
         ],
         "answer": "Herkese ayrı fırça verelim!",
         "assessments": [
           {
             "objection_id": "r1-o1",
-            "quality": "partial"
+            "score": 5
           }
         ],
         "feedback_tr": "Öneriniz bir başlangıç, halk nasıl uygulanacağını merak ediyor!",
@@ -92,16 +90,16 @@
         "objections": [
           {
             "objection_id": "r2-o1",
-            "persona_id": "ayse",
-            "name_tr": "Ayşe",
-            "text_tr": "Tarlaya gitmeden bir de diş fırçalamaya nasıl vakit ayıracağım?"
+            "persona_id": "hasan",
+            "name_tr": "Hasan",
+            "text_tr": "Çocuklar fırçalamayı bilmiyor, onlara kim öğretecek?"
           }
         ],
         "answer": "Kullanmayı köy meydanında gösterelim!",
         "assessments": [
           {
             "objection_id": "r2-o1",
-            "quality": "answered"
+            "score": 20
           }
         ],
         "feedback_tr": "Bu çözüm günlük işleri kolaylaştıracak, halk reforma ısındı!",
@@ -123,7 +121,7 @@
         "assessments": [
           {
             "objection_id": "r3-o1",
-            "quality": "missed"
+            "score": -20
           }
         ],
         "feedback_tr": "Bu cevap sorunu çözmek yerine görmezden geliyor!",

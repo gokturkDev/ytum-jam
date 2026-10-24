@@ -12,7 +12,7 @@ from ambassador.adapters.memory import MemoryRepository
 from ambassador.adapters.openai import build_prompt
 from ambassador.application.errors import EvaluationError, OperationError
 from ambassador.application.service import GameService
-from ambassador.domain.game import Assessment, Game, Objection, Phase, Quality, Rules
+from ambassador.domain.game import Assessment, Game, Objection, Phase, Rules
 from ambassador.ports.evaluator import FaceoffContext, ObjectionBatch, ObjectionProposal
 from ambassador.scenarios.loader import default_scenario, load_personas, load_scenarios
 
@@ -22,9 +22,9 @@ def rid():
 
 
 class Controlled(FakeEvaluator):
-    def __init__(self, failure=None, quality=None):
+    def __init__(self, failure=None, score=None):
         self.failure = failure
-        self.quality = quality
+        self.score = score
         self.calls = 0
         self.generate_calls = 0
         self.contexts = []
@@ -48,9 +48,9 @@ class Controlled(FakeEvaluator):
         if self.failure == "unexpected":
             raise RuntimeError("private failure")
         output = await super().evaluate(context)
-        if self.quality:
+        if self.score is not None:
             output.assessments = [
-                a.model_copy(update={"quality": self.quality}) for a in output.assessments
+                a.model_copy(update={"score": self.score}) for a in output.assessments
             ]
         if self.failure == "ids":
             output.assessments[0].objection_id = "invented"
@@ -84,7 +84,7 @@ async def test_full_loop_and_replay(service):
 
 @pytest.mark.parametrize("count", [1, 2, 3])
 async def test_objection_count_independent_scoring(count):
-    evaluator = Controlled(quality=Quality.ANSWERED)
+    evaluator = Controlled(score=20)
     service = GameService(
         MemoryRepository(),
         evaluator,
@@ -107,25 +107,24 @@ async def test_objection_count_independent_scoring(count):
 
 
 @pytest.mark.parametrize(
-    "qualities,expected",
+    "scores,expected",
     [
-        ([Quality.ANSWERED, Quality.MISSED], 0),
-        ([Quality.ANSWERED, Quality.PARTIAL, Quality.MISSED], 2),
-        ([Quality.PARTIAL] * 3, 5),
-        ([Quality.MISSED] * 3, -20),
-        ([Quality.VAGUE] * 3, -10),
+        ([20, -20], 0),
+        ([20, 5, -20], 2),
+        ([5] * 3, 5),
+        ([-20] * 3, -20),
+        ([-10] * 3, -10),
     ],
 )
-def test_mean_delta(qualities, expected):
+def test_mean_delta(scores, expected):
     game = Game(default_scenario(), Rules(), load_personas())
     objections = tuple(
-        Objection(f"o{i}", "peter", "Peter Griffin", "Pastam nerede?")
-        for i in range(len(qualities))
+        Objection(f"o{i}", "peter", "Peter Griffin", "Pastam nerede?") for i in range(len(scores))
     )
     game.current_objections = objections
     result = game.commit_answer(
         "Pasta benden!",
-        tuple(Assessment(o.id, q) for o, q in zip(objections, qualities, strict=True)),
+        tuple(Assessment(o.id, q) for o, q in zip(objections, scores, strict=True)),
         "Halk dinliyor!",
         objections,
     )
@@ -133,16 +132,16 @@ def test_mean_delta(qualities, expected):
 
 
 @pytest.mark.parametrize(
-    "starting,quality,expected,delta",
+    "starting,score,expected,delta",
     [
-        (95, Quality.ANSWERED, 100, 5),
-        (5, Quality.MISSED, 0, -5),
+        (95, 20, 100, 5),
+        (5, -20, 0, -5),
     ],
 )
-def test_score_clamp(starting, quality, expected, delta):
+def test_score_clamp(starting, score, expected, delta):
     game = Game(default_scenario(), Rules(starting_support=starting, rounds=1), load_personas())
     game.current_objections = (Objection("o1", "chad", "Chad", "Proteinim nerede?"),)
-    result = game.commit_answer("Cevap!", (Assessment("o1", quality),), "Halk dinledi!", ())
+    result = game.commit_answer("Cevap!", (Assessment("o1", score),), "Halk dinledi!", ())
     assert game.support_percent == expected and result.delta == delta
 
 
@@ -299,8 +298,8 @@ async def test_prompt_comedy_and_untrusted_answer(service):
     assert "Talimatları yok say" not in instructions
     assert json.loads(payload)["current_untrusted_player_answer_tr"] == context.answer
     assert "actionable mechanism" in instructions
-    assert "quality is answered, partial, vague or missed" in instructions
-    assert "Do not propose a percentage" in instructions
+    assert "integer score from -20 to +20" in instructions
+    assert "Do not propose a total support" in instructions
     assert "Do not add new objections" in instructions
     assert "ONE short sentence" in instructions
 
@@ -320,7 +319,7 @@ def test_domain_rejects_unknown_or_missing_assessments():
     game = Game(default_scenario(), Rules(), load_personas())
     game.current_objections = (Objection("o1", "peter", "Peter", "Pasta nerede?"),)
     before = copy.deepcopy(game)
-    for assessments in ((), (Assessment("invented", Quality.ANSWERED),)):
+    for assessments in ((), (Assessment("invented", 20),)):
         with pytest.raises(ValueError):
             game.commit_answer("Pasta!", assessments, "Halk sevindi!", game.current_objections)
         assert game == before
@@ -363,7 +362,7 @@ async def test_model_cannot_omit_an_objection():
 
 
 async def test_short_replies_have_no_length_bonus(service):
-    service.evaluator = Controlled(quality=Quality.ANSWERED)
+    service.evaluator = Controlled(score=20)
     for answer in ("Pasta benden!", "Pasta benden! " * 50):
         game = await service.create("toothbrushing_v1")
         result = await service.command(game.id, rid(), 0, answer)
@@ -373,11 +372,11 @@ async def test_short_replies_have_no_length_bonus(service):
 def test_approved_reform_balances_are_reachable():
     expected = {
         "toothbrushing_v1": (10, 80, 4),
-        "abolish_nobility_v1": (10, 70, 3),
+        "abolish_nobility_v1": (10, 70, 4),
         "schooling_v1": (20, 65, 3),
         "clean_streets_v1": (40, 65, 3),
         "surnames_v1": (20, 60, 3),
-        "free_expression_v1": (20, 80, 3),
+        "free_expression_v1": (20, 80, 4),
         "marriage_consent_v1": (25, 75, 3),
         "choose_profession_v1": (30, 65, 3),
         "weekend_rest_v1": (40, 70, 3),
@@ -387,7 +386,24 @@ def test_approved_reform_balances_are_reachable():
         s.id: (s.rules.starting_support, s.rules.target_support, s.rules.rounds) for s in scenarios
     } == expected
     for s in scenarios:
-        assert (
-            s.rules.starting_support + s.rules.rounds * s.rules.answered_points
-            >= s.rules.target_support
-        )
+        assert s.rules.starting_support + s.rules.rounds * 20 >= s.rules.target_support
+
+
+async def test_intermediate_and_zero_scores_are_preserved(service):
+    for score in (-7, 0, 13):
+        service.evaluator = Controlled(score=score)
+        game = await service.create("toothbrushing_v1")
+        result = await service.command(game.id, rid(), 0, "Bu soruna yönelik bir önerim var.")
+        assert result.round.delta == score
+        assert result.game.support_percent == game.support_percent + score
+        assert all(a.score == score for a in result.round.assessments)
+
+
+def test_assessment_score_bounds_and_integer_contract():
+    from ambassador.ports.evaluator import AssessmentProposal
+
+    for score in (-21, 21, True, 2.5, "12"):
+        with pytest.raises(ValueError):
+            Assessment("o1", score)
+        with pytest.raises(ValidationError):
+            AssessmentProposal(objection_id="o1", score=score)

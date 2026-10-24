@@ -138,7 +138,7 @@ async def test_provider_failure_mapping_without_sdk_retry(kind, code, retryable)
     assert len(calls) == 1
 
 
-async def test_actual_sdk_parses_answer_quality():
+async def test_actual_sdk_parses_answer_score():
     def handle(request):
         payload = json.loads(request.content)
         assert "current_untrusted_player_answer_tr" in payload["input"][0]["content"]
@@ -151,7 +151,7 @@ async def test_actual_sdk_parses_answer_quality():
                         "annotations": [],
                         "text": json.dumps(
                             {
-                                "assessments": [{"objection_id": "r1-o1", "quality": "answered"}],
+                                "assessments": [{"objection_id": "r1-o1", "score": 20}],
                                 "feedback_tr": "Pasta geldi, itiraz eridi!",
                             }
                         ),
@@ -166,4 +166,4 @@ async def test_actual_sdk_parses_answer_quality():
         http_client=httpx2.AsyncClient(transport=httpx2.MockTransport(handle)),
     ) as client:
         result = await OpenAIEvaluator(client, "test-model", 1200).evaluate(context())
-    assert result.assessments[0].quality.value == "answered"
+    assert result.assessments[0].score == 20

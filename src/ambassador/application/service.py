@@ -165,7 +165,7 @@ class GameService:
         last = len(game.history) + 1 == game.rules.rounds
         result = game.commit_answer(
             text,
-            tuple(Assessment(a.objection_id, a.quality) for a in decision.assessments),
+            tuple(Assessment(a.objection_id, a.score) for a in decision.assessments),
             decision.feedback_tr,
             () if last else game.current_objections,
         )

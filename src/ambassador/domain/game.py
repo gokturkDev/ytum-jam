@@ -2,12 +2,8 @@ from dataclasses import dataclass, field
 from enum import StrEnum
 from uuid import uuid4
 
-
-class Quality(StrEnum):
-    MISSED = "missed"
-    VAGUE = "vague"
-    PARTIAL = "partial"
-    ANSWERED = "answered"
+MIN_SCORE = -20
+MAX_SCORE = 20
 
 
 class Phase(StrEnum):
@@ -36,31 +32,12 @@ class Rules:
     starting_support: int = 30
     target_support: int = 60
     rounds: int = 3
-    answered_points: int = 20
-    partial_points: int = 5
-    vague_points: int = -10
-    missed_points: int = -20
 
     def __post_init__(self) -> None:
         if not 0 <= self.starting_support <= 100 or not 1 <= self.target_support <= 100:
             raise ValueError("Support percentages must be within bounds")
-        if (
-            self.rounds < 1
-            or not self.missed_points
-            < self.vague_points
-            < 0
-            <= self.partial_points
-            < self.answered_points
-        ):
+        if self.rounds < 1:
             raise ValueError("Invalid faceoff rules")
-
-    def points(self, quality: Quality) -> int:
-        return {
-            Quality.ANSWERED: self.answered_points,
-            Quality.PARTIAL: self.partial_points,
-            Quality.MISSED: self.missed_points,
-            Quality.VAGUE: self.vague_points,
-        }[quality]
 
 
 @dataclass(frozen=True)
@@ -86,7 +63,11 @@ class Objection:
 @dataclass(frozen=True)
 class Assessment:
     objection_id: str
-    quality: Quality
+    score: int
+
+    def __post_init__(self) -> None:
+        if type(self.score) is not int or not MIN_SCORE <= self.score <= MAX_SCORE:
+            raise ValueError("Assessment score must be an integer from -20 to 20")
 
 
 @dataclass(frozen=True)
@@ -134,9 +115,7 @@ class Game:
         last = len(self.history) + 1 == self.rules.rounds
         if (last and next_objections) or (not last and not 1 <= len(next_objections) <= 3):
             raise ValueError("Invalid next faceoff")
-        requested_delta = round(
-            sum(self.rules.points(a.quality) for a in assessments) / len(assessments)
-        )
+        requested_delta = round(sum(a.score for a in assessments) / len(assessments))
         after = max(0, min(100, self.support_percent + requested_delta))
         result = Round(
             len(self.history) + 1,

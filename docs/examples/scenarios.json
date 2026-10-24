@@ -31,7 +31,7 @@
     },
     "starting_support": 10,
     "target_support": 70,
-    "rounds": 3
+    "rounds": 4
   },
   {
     "id": "schooling_v1",
@@ -95,7 +95,7 @@
     "visual_effect": null,
     "starting_support": 20,
     "target_support": 80,
-    "rounds": 3
+    "rounds": 4
   },
   {
     "id": "marriage_consent_v1",

@@ -2,7 +2,7 @@
 
 A relaxed Turkish persuasion game in a fictional medieval kingdom. A modern-minded king wants to introduce beneficial reforms from above; ordinary people worry about disrupting familiar ways of life. The ambassador listens and helps find workable solutions. The king's good intentions do not make every implementation perfect, and the people are not fools for having concerns.
 
-Each round shows **one short objection**. A concrete, relevant explanation or practical proposal can persuade the speaker; reassurance alone loses support. The evaluation follows “yes, and”: build on a reasonable suggestion without demanding proof or inventing unrelated obstacles. Obvious contradictions and gaps in the proposed solution can be challenged. Random text, empty requests for agreement and cancelling the reform still fail. Humor is restrained and optional; the short feedback after an answer remains.
+Each round shows **one short objection**. Answers earn an integer score from -20 to +20 based on how fully they resolve the actual objection. The evaluator reads ordinary wording fairly, without inventing missing crucial solution steps or unrelated obstacles. A proposal solving a different problem can lose support even if it sounds helpful. Random text, empty requests for agreement and cancelling the reform still fail. Humor is restrained and optional; the short feedback after an answer remains.
 
 ## Setup and play
 
@@ -33,7 +33,7 @@ Choose a reform from the menu, answer its current objection, and submit with a l
 .venv/bin/python -m ambassador.cli --scenario schooling_v1
 ```
 
-For a no-key integration demo, start the server with `LLM_BACKEND=fake`. Its grades are scripted: partial, answered, missed. It ignores answer content and does not test AI quality. The CLI always uses real HTTP.
+For a no-key integration demo, start the server with `LLM_BACKEND=fake`. Its example scores are scripted: +5, +20, -20, repeating. It ignores answer content and does not test AI quality. The CLI always uses real HTTP.
 
 ## Reforms and visible changes
 
@@ -42,18 +42,26 @@ The nine selected topics come from `konular-draft.md`. Their public facts, promp
 | Reform ID | Topic | Starting support | Target | Rounds |
 | --- | --- | --- | --- | --- |
 | `toothbrushing_v1` | Diş fırçalama | 10% | 80% | 4 |
-| `abolish_nobility_v1` | Soyluluğun kaldırılması | 10% | 70% | 3 |
+| `abolish_nobility_v1` | Soyluluğun kaldırılması | 10% | 70% | 4 |
 | `schooling_v1` | Çocuklar için zorunlu eğitim | 20% | 65% | 3 |
 | `clean_streets_v1` | Sokaklara çöp atılmaması | 40% | 65% | 3 |
 | `surnames_v1` | Soyadı düzeni | 20% | 60% | 3 |
-| `free_expression_v1` | İfade özgürlüğü | 20% | 80% | 3 |
+| `free_expression_v1` | İfade özgürlüğü | 20% | 80% | 4 |
 | `marriage_consent_v1` | Evlilikte karşılıklı rıza | 25% | 75% | 3 |
 | `choose_profession_v1` | Meslek seçme özgürlüğü | 30% | 65% | 3 |
 | `weekend_rest_v1` | Hafta sonu izni | 40% | 70% | 3 |
 
-A game addresses one reform. Topic-specific rules are stored with the reform data and shown in the topic menu. Toothbrushing needs four rounds because three full-credit answers cannot take support from 10% to 80%. All other reforms have three rounds. No early ending or first-round immunity.
+A game addresses one reform. Topic-specific rules are shown in the menu. Toothbrushing, abolishing nobility and freedom of expression have four rounds; the other six have three. Initial and target percentages are unchanged. No early ending or first-round immunity.
 
-A direct, coherent solution earns **+20** percentage points. A concrete but importantly incomplete solution earns **+5**. Vague reassurance loses **10**, and an unrelated, contradictory, harmful or reform-cancelling answer loses **20**. Support is clamped to 0-100. Full credit requires addressing the actual objection with a mechanism; length, confidence and friendliness do not replace a solution. Feedback names a real gap and is blunt about terrible proposals without insulting the player.
+The model proposes an **integer from -20 to +20** per objection. The engine validates the bounds and applies that exact score as percentage points, clamping total support to 0-100. There are no fixed quality buckets:
+
+- Negative scores: unrelated, evasive or merely topical answers that leave the actual concern untouched.
+- 0: acknowledges the concern without clear progress.
+- +1 to +10: small or partial coverage with important gaps.
+- +11 to +19: substantial to almost complete coverage.
+- +20: rare, explicit complete coverage of the asked concern without inventing missing steps.
+
+Brief answers can score well, but effort, confidence, gifts or mentioning the reform are not substitutes for answering the objection. Feedback explains the actual gap or why the concern is resolved. Missing unrelated policy details never becomes a new hurdle.
 
 Toothbrushing gives white smiles, abolishing nobility removes noble crowns, schooling gives children school clothes, street cleaning removes litter, and surnames update character name labels. The other four reforms have no specified visual change.
 
@@ -63,7 +71,7 @@ Victory returns visual effect IDs through the API. The terminal describes the ch
 
 [personas.json](src/ambassador/scenarios/personas.json) defines ordinary medieval people: Ayşe the weaver, Hasan the farmer, and Cem the carpenter. Their habits, livelihoods and family responsibilities shape their concerns. Replace this data or set `PERSONAS_FILE` to your own array; no character is hardcoded in the game rules. `surname_tr` supports the surname effect. Restart the server after changing the catalog, personas or settings. Prompts are read on each model request.
 
-The current defaults keep `OBJECTIONS_MIN=1` and `OBJECTIONS_MAX=1`. Scoring, provider deadlines and output budget are configurable in `.env.example`. Initial support, targets and rounds normally come from each reform; optional global overrides are commented out in `.env.example`. Implementation promises stay proposals; accepting a credible solution does not let the player rewrite the reform's central right.
+The current defaults keep `OBJECTIONS_MIN=1` and `OBJECTIONS_MAX=1`. Provider deadlines and output budget are configurable in `.env.example`. Initial support, targets and rounds normally come from each reform; optional global overrides are commented out in `.env.example`. Implementation promises stay proposals; accepting a credible solution does not let the player rewrite the reform's central right.
 
 ## API, checks and limitations
 
@@ -79,3 +87,5 @@ Use `GET /v2/scenarios`, `POST /v2/games`, `GET /v2/games/{id}` and `POST /v2/ga
 One server process/worker, localhost by default. Games and successful response caches are in memory; restarting loses them. Evaluation plus next-round generation commits atomically. Retry the exact answer body and request ID after a timeout; replay cannot award a second gain. GET shows the last committed state during evaluation. One application retry per failed provider operation, no SDK retries, 30-second per-attempt and 75-second whole-operation deadlines by default. No database, accounts, hosting, Unity implementation or mobile packaging is included.
 
 The official async OpenAI SDK uses Responses Structured Outputs without temperature/reasoning options. Logs contain model, prompt version, latency, token usage and support changes, never keys. `TRANSCRIPT_DIR` opts into private local player transcripts; `--debug` writes public client responses to stderr. See [playtest notes](docs/playtest.md) for actual verification and quality limits.
+
+The assessment DTO now uses `score` instead of `quality`; `scoring` exposes `minimum: -20` and `maximum: 20`. See the updated v2 protocol before updating another client.
