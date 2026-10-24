@@ -1,0 +1,114 @@
+{
+  "api_version": "2",
+  "request_id": "00000000-0000-0000-0000-000000000002",
+  "round": {
+    "round_number": 2,
+    "objections": [
+      {
+        "objection_id": "r2-o1",
+        "persona_id": "hasan",
+        "name_tr": "Hasan",
+        "text_tr": "Çocuklar fırçalamayı bilmiyor, onlara kim öğretecek?"
+      }
+    ],
+    "answer": "Kullanmayı köy meydanında gösterelim!",
+    "assessments": [
+      {
+        "objection_id": "r2-o1",
+        "quality": "answered"
+      }
+    ],
+    "feedback_tr": "Bu çözüm günlük işleri kolaylaştıracak, halk reforma ısındı!",
+    "support_before": 40,
+    "support_after": 60,
+    "support_delta": 20
+  },
+  "game": {
+    "api_version": "2",
+    "game_id": "8688a9d0-eace-4fe3-9671-03c1917cebce",
+    "version": 2,
+    "scenario": {
+      "id": "toothbrushing_v1",
+      "title_tr": "Diş fırçalama",
+      "decree_tr": "Herkes diş fırçalama alışkanlığı kazansın.",
+      "public_facts_tr": [
+        "Amaç ağız bakımını günlük bir alışkanlık yapmak; saray öğretim ve temel malzeme desteğine açık.",
+        "Halkın dişlerini kaybetmesi kader sayılıyor; alışkanlık ve masraf kaygıları konuşularak aşılabilir."
+      ],
+      "visual_effect": {
+        "id": "white_smiles",
+        "description_tr": "Halkın sprite ağızları beyaz ve gülümseyen ağızlara dönüşür.",
+        "name_updates": []
+      }
+    },
+    "phase": "faceoff",
+    "rounds_completed": 2,
+    "total_rounds": 3,
+    "round_number": 3,
+    "support_percent": 60,
+    "target_percent": 60,
+    "scoring": {
+      "answered": 20,
+      "partial": 10,
+      "missed": -10
+    },
+    "current_objections": [
+      {
+        "objection_id": "r3-o1",
+        "persona_id": "hasan",
+        "name_tr": "Hasan",
+        "text_tr": "Dişim ağrımıyorken neden her gün fırçalayayım?"
+      }
+    ],
+    "history": [
+      {
+        "round_number": 1,
+        "objections": [
+          {
+            "objection_id": "r1-o1",
+            "persona_id": "cem",
+            "name_tr": "Cem",
+            "text_tr": "Bir kere öğrenince yaparım ama bu malzemeyi her zaman bulabilecek miyim?"
+          }
+        ],
+        "answer": "Herkese ayrı fırça verelim!",
+        "assessments": [
+          {
+            "objection_id": "r1-o1",
+            "quality": "partial"
+          }
+        ],
+        "feedback_tr": "Öneriniz bir başlangıç, halk nasıl uygulanacağını merak ediyor!",
+        "support_before": 30,
+        "support_after": 40,
+        "support_delta": 10
+      },
+      {
+        "round_number": 2,
+        "objections": [
+          {
+            "objection_id": "r2-o1",
+            "persona_id": "hasan",
+            "name_tr": "Hasan",
+            "text_tr": "Çocuklar fırçalamayı bilmiyor, onlara kim öğretecek?"
+          }
+        ],
+        "answer": "Kullanmayı köy meydanında gösterelim!",
+        "assessments": [
+          {
+            "objection_id": "r2-o1",
+            "quality": "answered"
+          }
+        ],
+        "feedback_tr": "Bu çözüm günlük işleri kolaylaştıracak, halk reforma ısındı!",
+        "support_before": 40,
+        "support_after": 60,
+        "support_delta": 20
+      }
+    ],
+    "allowed_actions": [
+      "submit_answer"
+    ],
+    "outcome": null
+  }
+}

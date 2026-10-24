@@ -1,0 +1,112 @@
+[
+  {
+    "id": "toothbrushing_v1",
+    "title_tr": "Diş fırçalama",
+    "decree_tr": "Herkes diş fırçalama alışkanlığı kazansın.",
+    "public_facts_tr": [
+      "Amaç ağız bakımını günlük bir alışkanlık yapmak; saray öğretim ve temel malzeme desteğine açık.",
+      "Halkın dişlerini kaybetmesi kader sayılıyor; alışkanlık ve masraf kaygıları konuşularak aşılabilir."
+    ],
+    "visual_effect": {
+      "id": "white_smiles",
+      "description_tr": "Halkın sprite ağızları beyaz ve gülümseyen ağızlara dönüşür.",
+      "name_updates": []
+    }
+  },
+  {
+    "id": "abolish_nobility_v1",
+    "title_tr": "Soyluluğun kaldırılması",
+    "decree_tr": "Doğuştan gelen soyluluk ayrıcalıkları kaldırılsın.",
+    "public_facts_tr": [
+      "İnsanların hakları soyuna göre belirlenmeyecek; soyluların doğuştan gelen ayrıcalıkları kalkacak.",
+      "Amaç insanları soyu nedeniyle cezalandırmak veya mallarına el koymak değil, eşit yurttaşlık kurmak."
+    ],
+    "visual_effect": {
+      "id": "remove_crowns",
+      "description_tr": "Soyluluk simgesi olan taçlar sprite görsellerinden kaldırılır.",
+      "name_updates": []
+    }
+  },
+  {
+    "id": "schooling_v1",
+    "title_tr": "Çocuklar için zorunlu eğitim",
+    "decree_tr": "Çocuklar çalışmak yerine zorunlu temel eğitim alsın.",
+    "public_facts_tr": [
+      "Çocuklar tarla ve atölyelerde işçi olarak çalıştırılmayacak; zorunlu temel eğitim alacak.",
+      "Ailelerin geçim ve ulaşım kaygıları için destek ve uygun geçiş çözümleri geliştirilebilir."
+    ],
+    "visual_effect": {
+      "id": "school_clothes",
+      "description_tr": "Çocuk sprite görselleri okul kıyafetli çocuklara dönüşür.",
+      "name_updates": []
+    }
+  },
+  {
+    "id": "clean_streets_v1",
+    "title_tr": "Temiz sokaklar",
+    "decree_tr": "Sokaklara çöp atmak yasaklansın.",
+    "public_facts_tr": [
+      "Amaç ortak alanları temiz tutmak; halkın kullanabileceği toplama noktaları ve düzenli toplama kurulabilir.",
+      "Yasak, evlerde çöp saklamak zorunluluğu veya temizlik işini tek başına halka yüklemek anlamına gelmez."
+    ],
+    "visual_effect": {
+      "id": "clean_streets",
+      "description_tr": "Sokaklardaki çöp görselleri temizlenir.",
+      "name_updates": []
+    }
+  },
+  {
+    "id": "surnames_v1",
+    "title_tr": "Soyadı düzeni",
+    "decree_tr": "Herkesin bir soyadı olsun.",
+    "public_facts_tr": [
+      "Soyadı aynı adlı kişileri ayırt etmek ve kayıtları kolaylaştırmak için kullanılacak.",
+      "İnsanların adlarını, aile bağlarını veya mesleklerini değiştirmek zorunda olmaları gerekmiyor; seçimde yardımcı olunabilir."
+    ],
+    "visual_effect": {
+      "id": "show_surnames",
+      "description_tr": "Karakterlerin adlarının yanında soyadları görünür.",
+      "name_updates": []
+    }
+  },
+  {
+    "id": "free_expression_v1",
+    "title_tr": "İfade özgürlüğü",
+    "decree_tr": "Herkes düşüncesini korkmadan söyleyebilsin.",
+    "public_facts_tr": [
+      "Kralı veya yerleşik fikirleri eleştirmek cezalandırılmayacak.",
+      "İfade özgürlüğü tehdit veya şiddet serbestliği anlamına gelmez; anlaşmazlıklar sözle ve adil kurallarla çözülebilir."
+    ],
+    "visual_effect": null
+  },
+  {
+    "id": "marriage_consent_v1",
+    "title_tr": "Evlilikte karşılıklı rıza",
+    "decree_tr": "Evlilikte iki tarafın da özgür rızası alınsın.",
+    "public_facts_tr": [
+      "Evlenecek iki kişinin de özgürce evet demesi gerekecek; aile onayı kişilerin rızasının yerine geçmeyecek.",
+      "Ailelerin danışmanlığı, törenler ve evlilik devam edebilir; zorlama kabul edilmez."
+    ],
+    "visual_effect": null
+  },
+  {
+    "id": "choose_profession_v1",
+    "title_tr": "Meslek seçme özgürlüğü",
+    "decree_tr": "Herkes aile mesleğine mecbur olmadan istediği mesleği seçebilsin.",
+    "public_facts_tr": [
+      "Çocuklar ailelerinin mesleğini sürdürmeye zorlanmayacak; isteyen aynı mesleği seçebilir.",
+      "Ustalık, çıraklık ve meslek öğretmek devam edebilir; ailelerin geçiş kaygıları için çözüm üretilebilir."
+    ],
+    "visual_effect": null
+  },
+  {
+    "id": "weekend_rest_v1",
+    "title_tr": "Hafta sonu izni",
+    "decree_tr": "Herkesin haftada iki gün dinlenme hakkı olsun.",
+    "public_facts_tr": [
+      "Haftada iki gün dinlenme hakkı getirilecek; temel hizmetler vardiya veya dönüşümlü izinle sürebilir.",
+      "Hayvan bakımı ve acil işler tüm toplumun aynı anda işi bırakmasını gerektirmez; iş yükü adil paylaşılabilir."
+    ],
+    "visual_effect": null
+  }
+]

@@ -1,0 +1,296 @@
+[
+  {
+    "id": "toothbrushing_v1",
+    "title_tr": "Diş fırçalama",
+    "decree_tr": "Herkes diş fırçalama alışkanlığı kazansın.",
+    "public_facts_tr": [
+      "Amaç ağız bakımını günlük bir alışkanlık yapmak; saray öğretim ve temel malzeme desteğine açık.",
+      "Halkın dişlerini kaybetmesi kader sayılıyor; alışkanlık ve masraf kaygıları konuşularak aşılabilir."
+    ],
+    "facts_en": [
+      "Introduce daily toothbrushing as an accessible health habit, not a punishment or forced cosmetic procedure.",
+      "The crown is open to supplying simple materials and demonstrations; ordinary implementation promises are welcome."
+    ],
+    "objections_by_persona": {
+      "ayse": [
+        "Dişlerimi yıllardır suyla çalkalıyorum, bir de fırçaya neden para vereyim?",
+        "Tarlaya gitmeden bir de diş fırçalamaya nasıl vakit ayıracağım?",
+        "Bu fırçayı kullanmayı bize kim gösterecek?"
+      ],
+      "hasan": [
+        "Fırça benim değilse ağzıma sürmek istemem, herkese ayrı mı verilecek?",
+        "Çocuklar fırçalamayı bilmiyor, onlara kim öğretecek?",
+        "Dişim ağrımıyorken neden her gün fırçalayayım?"
+      ],
+      "cem": [
+        "Bir kere öğrenince yaparım ama bu malzemeyi her zaman bulabilecek miyim?",
+        "Kışın geçim zor, fırçaya ayıracak param kalmazsa ne olacak?",
+        "Yemekten sonra ağzımı çalkalamak yetmiyor mu?"
+      ]
+    },
+    "visual_effect": {
+      "id": "white_smiles",
+      "description_tr": "Halkın sprite ağızları beyaz ve gülümseyen ağızlara dönüşür."
+    }
+  },
+  {
+    "id": "abolish_nobility_v1",
+    "title_tr": "Soyluluğun kaldırılması",
+    "decree_tr": "Doğuştan gelen soyluluk ayrıcalıkları kaldırılsın.",
+    "public_facts_tr": [
+      "İnsanların hakları soyuna göre belirlenmeyecek; soyluların doğuştan gelen ayrıcalıkları kalkacak.",
+      "Amaç insanları soyu nedeniyle cezalandırmak veya mallarına el koymak değil, eşit yurttaşlık kurmak."
+    ],
+    "facts_en": [
+      "End hereditary noble privileges and establish equal civic standing.",
+      "This is not collective punishment, dispossession or a ban on family identity; useful administrative duties can continue without hereditary privilege."
+    ],
+    "objections_by_persona": {
+      "ayse": [
+        "Soylular çekilirse köyün işlerini kim düzenleyecek?",
+        "Beyin koruması olmadan köyü kime emanet edeceğiz?",
+        "Yeni düzende köylünün derdini gerçekten dinleyen olacak mı?"
+      ],
+      "hasan": [
+        "Beyin konağında çalışıyorum, ayrıcalıkları kalkınca işimi kaybeder miyim?",
+        "Herkes eşit olacaksa mahkemede bize de söz düşecek mi?",
+        "Soylu ailelerle kavga çıkmadan bu değişiklik yapılabilir mi?"
+      ],
+      "cem": [
+        "Loncanın işlerini şimdi kiminle konuşacağım?",
+        "Yeni görevlileri soyuna göre değilse neye göre seçeceğiz?",
+        "Ayrıcalıklar kalkınca aynı vergiyi mi ödeyeceğiz?"
+      ]
+    },
+    "visual_effect": {
+      "id": "remove_crowns",
+      "description_tr": "Soyluluk simgesi olan taçlar sprite görsellerinden kaldırılır."
+    }
+  },
+  {
+    "id": "schooling_v1",
+    "title_tr": "Çocuklar için zorunlu eğitim",
+    "decree_tr": "Çocuklar çalışmak yerine zorunlu temel eğitim alsın.",
+    "public_facts_tr": [
+      "Çocuklar tarla ve atölyelerde işçi olarak çalıştırılmayacak; zorunlu temel eğitim alacak.",
+      "Ailelerin geçim ve ulaşım kaygıları için destek ve uygun geçiş çözümleri geliştirilebilir."
+    ],
+    "facts_en": [
+      "Children must attend compulsory basic school and must not be used as workers in fields or workshops, including after school.",
+      "Family income, access and transition support are legitimate implementation concerns; do not accept replacing school with child labor."
+    ],
+    "objections_by_persona": {
+      "ayse": [
+        "Çocuğum okula gidince evdeki işlere nasıl yetişeceğiz?",
+        "Okuma yazma öğrense iyi ama okul uzaktaysa nasıl gidecek?",
+        "Defter kitap masrafını bizim gibi aileler nasıl karşılayacak?"
+      ],
+      "hasan": [
+        "Oğlum tarlada yardım etmezse bu yıl hasadı nasıl kaldıracağım?",
+        "Köyde öğretmen yokken çocukları nereye göndereceğiz?",
+        "Çocuklar okurken kaybettiğimiz kazancı nasıl karşılayacağız?"
+      ],
+      "cem": [
+        "Ben işi babamdan öğrendim, çocuğuma okul ne kazandıracak?",
+        "Okula giden çocuğum bir meslek öğrenmekten geri kalır mı?",
+        "Dükkânı tek başıma çevirmem gerekirse kime danışacağım?"
+      ]
+    },
+    "visual_effect": {
+      "id": "school_clothes",
+      "description_tr": "Çocuk sprite görselleri okul kıyafetli çocuklara dönüşür."
+    }
+  },
+  {
+    "id": "clean_streets_v1",
+    "title_tr": "Temiz sokaklar",
+    "decree_tr": "Sokaklara çöp atmak yasaklansın.",
+    "public_facts_tr": [
+      "Amaç ortak alanları temiz tutmak; halkın kullanabileceği toplama noktaları ve düzenli toplama kurulabilir.",
+      "Yasak, evlerde çöp saklamak zorunluluğu veya temizlik işini tek başına halka yüklemek anlamına gelmez."
+    ],
+    "facts_en": [
+      "Stop street littering; practical collection points and regular waste collection can be introduced.",
+      "Do not invent a lack of permitted disposal routes as a permanent fact; build on proposals for accessible disposal."
+    ],
+    "objections_by_persona": {
+      "ayse": [
+        "Çöpü sokağa atmayacaksak evde biriktirmeden nereye bırakacağız?",
+        "Pazar yerinin çöpünü her akşam kim toplayacak?",
+        "Evimizin yakınına bir toplama yeri yapılabilecek mi?"
+      ],
+      "hasan": [
+        "Tarladan dönüşte çöpü bırakacak bir yer bulabilecek miyim?",
+        "Köyde çöp arabası yokken bu düzen nasıl işleyecek?",
+        "Toplama yeri çok uzakta olursa yaşlılar ne yapacak?"
+      ],
+      "cem": [
+        "Atölyenin talaşını ve artıklarını nereye götüreceğim?",
+        "Temizlik masrafı yine küçük esnafa mı kalacak?",
+        "Pazar günü çöpler birikirse dükkânın önünü kim temizleyecek?"
+      ]
+    },
+    "visual_effect": {
+      "id": "clean_streets",
+      "description_tr": "Sokaklardaki çöp görselleri temizlenir."
+    }
+  },
+  {
+    "id": "surnames_v1",
+    "title_tr": "Soyadı düzeni",
+    "decree_tr": "Herkesin bir soyadı olsun.",
+    "public_facts_tr": [
+      "Soyadı aynı adlı kişileri ayırt etmek ve kayıtları kolaylaştırmak için kullanılacak.",
+      "İnsanların adlarını, aile bağlarını veya mesleklerini değiştirmek zorunda olmaları gerekmiyor; seçimde yardımcı olunabilir."
+    ],
+    "facts_en": [
+      "Introduce surnames to distinguish people and simplify records.",
+      "People keep their given names, family ties and occupations; help choosing surnames is a reasonable promise."
+    ],
+    "objections_by_persona": {
+      "ayse": [
+        "Mahalle zaten beni tanıyor, bir de soyadına neden ihtiyacım var?",
+        "Soyadını kendimiz seçebilecek miyiz?",
+        "Soyadı alınca eski kayıtlardaki adım ne olacak?"
+      ],
+      "hasan": [
+        "Ailemizin bildiği adı değiştirmemiz mi gerekecek?",
+        "Okuma yazmam yok, yeni adımı kayda nasıl geçireceğim?",
+        "Soyadı için kayıt ücreti ödemem gerekecek mi?"
+      ],
+      "cem": [
+        "Herkes bana marangoz Cem diyor, soyadı dükkânı bulmayı zorlaştırmaz mı?",
+        "Aynı soyadını iki aile seçerse karışıklık çıkmaz mı?",
+        "Bir soyadı seçmek için ailemle anlaşamazsak kim yardımcı olacak?"
+      ]
+    },
+    "visual_effect": {
+      "id": "show_surnames",
+      "description_tr": "Karakterlerin adlarının yanında soyadları görünür."
+    }
+  },
+  {
+    "id": "free_expression_v1",
+    "title_tr": "İfade özgürlüğü",
+    "decree_tr": "Herkes düşüncesini korkmadan söyleyebilsin.",
+    "public_facts_tr": [
+      "Kralı veya yerleşik fikirleri eleştirmek cezalandırılmayacak.",
+      "İfade özgürlüğü tehdit veya şiddet serbestliği anlamına gelmez; anlaşmazlıklar sözle ve adil kurallarla çözülebilir."
+    ],
+    "facts_en": [
+      "Protect expression and criticism of the crown without punishment for disagreement.",
+      "Threats and violence are not protected by this proposal; do not accept restoring censorship as a solution."
+    ],
+    "objections_by_persona": {
+      "ayse": [
+        "Herkes fikrini açıkça söylerse mahallede kavga çıkmaz mı?",
+        "Söylediğim söz yüzünden işimi kaybedersem beni kim dinleyecek?",
+        "Kralı eleştiren komşum yüzünden bütün sokak suçlanır mı?"
+      ],
+      "hasan": [
+        "Büyüklerin sözüne herkes karşı çıkarsa köyde nasıl anlaşacağız?",
+        "Birini eleştirmekle tehdit etmek arasındaki sınırı kim anlatacak?",
+        "Yanlış bir şey söylersem hemen cezalandırılmayacak mıyım?"
+      ],
+      "cem": [
+        "Loncanın kararını eleştirirsem tezgâhımı elimden alırlar mı?",
+        "Herkes konuşunca birbirimizi dinlemeyi nasıl başaracağız?",
+        "Dükkânım hakkında yalan söylenirse derdimi nerede anlatacağım?"
+      ]
+    },
+    "visual_effect": null
+  },
+  {
+    "id": "marriage_consent_v1",
+    "title_tr": "Evlilikte karşılıklı rıza",
+    "decree_tr": "Evlilikte iki tarafın da özgür rızası alınsın.",
+    "public_facts_tr": [
+      "Evlenecek iki kişinin de özgürce evet demesi gerekecek; aile onayı kişilerin rızasının yerine geçmeyecek.",
+      "Ailelerin danışmanlığı, törenler ve evlilik devam edebilir; zorlama kabul edilmez."
+    ],
+    "facts_en": [
+      "Marriage requires the free consent of both people; family approval cannot replace either person's consent.",
+      "Marriage, family advice and ceremonies remain possible; never reward coercion or overriding a refusal as a solution."
+    ],
+    "objections_by_persona": {
+      "ayse": [
+        "Aileler anlaşmışken taraflardan biri vazgeçerse verilen sözler ne olacak?",
+        "Çocuklarımız yanlış bir eş seçerse tecrübemizi nasıl aktaracağız?",
+        "İki kişi evet derken ailelerin görüşünü kim dinleyecek?"
+      ],
+      "hasan": [
+        "Aileler onaylamadan evlenen çift geçimini nasıl kuracak?",
+        "Bizim usulümüz değişince aileler arasındaki anlaşmazlığı kim çözecek?",
+        "Gençler ailelerinin öğüdünü yine dinleyecek mi?"
+      ],
+      "cem": [
+        "Düğün hazırlıkları yapılmışken biri hayır derse harcanan para ne olacak?",
+        "İstemediğini söylemeye çekinen birinin rızasını nasıl anlayacağız?",
+        "Aileler birbirine söz vermeden düğün hazırlığına nasıl başlayacak?"
+      ]
+    },
+    "visual_effect": null
+  },
+  {
+    "id": "choose_profession_v1",
+    "title_tr": "Meslek seçme özgürlüğü",
+    "decree_tr": "Herkes aile mesleğine mecbur olmadan istediği mesleği seçebilsin.",
+    "public_facts_tr": [
+      "Çocuklar ailelerinin mesleğini sürdürmeye zorlanmayacak; isteyen aynı mesleği seçebilir.",
+      "Ustalık, çıraklık ve meslek öğretmek devam edebilir; ailelerin geçiş kaygıları için çözüm üretilebilir."
+    ],
+    "facts_en": [
+      "People may choose their occupation rather than being forced into the family trade.",
+      "Voluntary apprenticeships and family trades remain possible; forced hereditary work is not an acceptable compromise."
+    ],
+    "objections_by_persona": {
+      "ayse": [
+        "Kızım aile işini istemezse başka bir mesleği nerede öğrenecek?",
+        "Yeni mesleğe geçerken geçimini nasıl sağlayacak?",
+        "Herkes iş değiştirirse gerekli işleri yapan kalacak mı?"
+      ],
+      "hasan": [
+        "Çocuğum çiftçi olmak istemezse tarlayı kim işleyecek?",
+        "Başka meslek seçen çocuğum köyden gitmek zorunda mı kalacak?",
+        "Bu yaşıma kadar öğrettiklerim boşa mı gidecek?"
+      ],
+      "cem": [
+        "Oğlum marangoz olmayacaksa ben kime marangozluk öğrettim?",
+        "Dükkânı devralacak kimse olmazsa yetiştirdiğim emeğe ne olacak?",
+        "Aileden olmayan bir çırak bulmama kim yardımcı olacak?"
+      ]
+    },
+    "visual_effect": null
+  },
+  {
+    "id": "weekend_rest_v1",
+    "title_tr": "Hafta sonu izni",
+    "decree_tr": "Herkesin haftada iki gün dinlenme hakkı olsun.",
+    "public_facts_tr": [
+      "Haftada iki gün dinlenme hakkı getirilecek; temel hizmetler vardiya veya dönüşümlü izinle sürebilir.",
+      "Hayvan bakımı ve acil işler tüm toplumun aynı anda işi bırakmasını gerektirmez; iş yükü adil paylaşılabilir."
+    ],
+    "facts_en": [
+      "Introduce two weekly rest days for workers, with shifts or rotating days for essential care and services.",
+      "The right cannot be replaced by permanent unpaid overtime or only granting employers time off."
+    ],
+    "objections_by_persona": {
+      "ayse": [
+        "İzin günlerinde kazancım azalırsa evin masrafını nasıl karşılayacağım?",
+        "İzin hakkını ustam tanımazsa kime başvuracağım?",
+        "Herkes aynı gün dinlenirse pazardan ihtiyacımızı nasıl alacağız?"
+      ],
+      "hasan": [
+        "Hayvanlar hafta sonu da yem ister, ben nasıl izin yapacağım?",
+        "Hasat zamanı iki gün dinlenirsek ürün tarlada kalmaz mı?",
+        "Köyün zorunlu işlerini izin günlerinde kim üstlenecek?"
+      ],
+      "cem": [
+        "Atölyeyi iki gün kapatırsam siparişleri nasıl yetiştireceğim?",
+        "Çalışanlar izin yaparken dükkânın başında hep ben mi kalacağım?",
+        "İzin günlerini sırayla kullanırsak bu hak korunmuş olacak mı?"
+      ]
+    },
+    "visual_effect": null
+  }
+]

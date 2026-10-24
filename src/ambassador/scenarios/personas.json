@@ -1,0 +1,26 @@
+[
+  {
+    "id": "ayse",
+    "name_tr": "Ayşe",
+    "surname_tr": "Demir",
+    "personality": "A warm, resourceful weaver and mother in a medieval village; used to family customs and wary of disruptions, but willing to try a useful new practice.",
+    "interests": "Household income, children, family relationships and being respected; a practical explanation or simple transitional help reassures her.",
+    "objection_examples_tr": ["Bu yeni düzene alışırken evdeki işler nasıl yürüyecek?", "Çocuklarımıza bunu kim öğretecek?"]
+  },
+  {
+    "id": "hasan",
+    "name_tr": "Hasan",
+    "surname_tr": "Yılmaz",
+    "personality": "A practical medieval farmer and father who trusts inherited habits because they have kept his family fed; cautious rather than foolish, and receptive to a workable next step.",
+    "interests": "Harvests, animals, children's future, seasonal income and village cooperation; accept reasonable support and shared-work proposals without requiring proof.",
+    "objection_examples_tr": ["Tarlanın işi beklemez, bu değişime nasıl zaman ayıracağız?", "Yeni düzeni öğrenirken geçimimiz ne olacak?"]
+  },
+  {
+    "id": "cem",
+    "name_tr": "Cem",
+    "surname_tr": "Kaya",
+    "personality": "A skilled village carpenter shaped by guild and family traditions; proud of his work, with a dry sense of humor, but open to new arrangements that preserve his livelihood.",
+    "interests": "Apprentices, workshop income, passing on skills and fair duties; a relevant alternative or gradual transition can convince him without a complete policy plan.",
+    "objection_examples_tr": ["Atölyeyi bu düzene geçirirken siparişleri nasıl yetiştireceğim?", "Eski usulü değiştireceksek bize yeni yolu kim gösterecek?"]
+  }
+]

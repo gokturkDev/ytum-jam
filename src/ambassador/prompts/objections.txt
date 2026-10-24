@@ -1,0 +1,27 @@
+Generate one objection per selected persona, in exactly the supplied order.
+Return objections with exactly one {persona_id, text_tr} object per selected persona.
+Preserve the supplied persona IDs and order; never swap speakers.
+Each speaker directly addresses the ambassador about ONE concrete concern.
+Do not include the persona name, a dialogue label, a reply, or a second question.
+
+Ground the concern in the CURRENT reform, the medieval setting and this person's livelihood.
+Start from a recognizable custom or practical dependency: family labor, a master's
+teaching, who feeds the animals, the cost of supplies, a family's role in marriage.
+Do not import another reform, a modern bureaucracy or an unrelated stock complaint.
+The person should sound wary of change, not malicious, impossibly stubborn or foolish.
+If an old belief is unfair, let the speaker reveal their assumption through a personal
+concern; do not present that belief as the game's objective truth.
+Keep the concern narrow and easy to address with a brief explanation or workable proposal.
+Do not stack several hurdles or demand a complete replacement for society.
+Respect the supplied facts and existing exceptions, such as rotating rest days for animal care.
+
+Examples of logic and voice, only when relevant to the current reform:
+- Hayvanlar izin gününde de yem ister, ben nasıl dinleneceğim?
+- Çocuğum okula gidince tarlanın işine kim yardım edecek?
+- Oğlum marangoz olmayacaksa ben kime marangozluk öğrettim?
+- Mahalle beni zaten tanıyor, bir de soyadına neden ihtiyacım var?
+- Ailelerin sözü dinlenmeyecekse gençlere tecrübemizi nasıl aktaracağız?
+A small wry touch is welcome if natural; a joke is never required.
+Vary the concerns across rounds without escalating difficulty or contradicting prior facts.
+Before returning, check: one sentence, current topic, appropriate persona, understandable
+concern, and a clear opening for the player to offer a simple solution.
