@@ -6,9 +6,9 @@
     "objections": [
       {
         "objection_id": "r1-o1",
-        "persona_id": "cem",
-        "name_tr": "Cem",
-        "text_tr": "Bir kere öğrenince yaparım ama bu malzemeyi her zaman bulabilecek miyim?"
+        "persona_id": "hasan",
+        "name_tr": "Hasan",
+        "text_tr": "Fırça benim değilse ağzıma sürmek istemem, herkese ayrı mı verilecek?"
       }
     ],
     "answer": "Herkese ayrı fırça verelim!",
@@ -19,13 +19,13 @@
       }
     ],
     "feedback_tr": "Öneriniz bir başlangıç, halk nasıl uygulanacağını merak ediyor!",
-    "support_before": 30,
-    "support_after": 40,
-    "support_delta": 10
+    "support_before": 10,
+    "support_after": 15,
+    "support_delta": 5
   },
   "game": {
     "api_version": "2",
-    "game_id": "8688a9d0-eace-4fe3-9671-03c1917cebce",
+    "game_id": "dad37d16-fd6e-4ef3-96b6-75c96de3c084",
     "version": 1,
     "scenario": {
       "id": "toothbrushing_v1",
@@ -39,25 +39,29 @@
         "id": "white_smiles",
         "description_tr": "Halkın sprite ağızları beyaz ve gülümseyen ağızlara dönüşür.",
         "name_updates": []
-      }
+      },
+      "starting_support": 10,
+      "target_support": 80,
+      "rounds": 4
     },
     "phase": "faceoff",
     "rounds_completed": 1,
-    "total_rounds": 3,
+    "total_rounds": 4,
     "round_number": 2,
-    "support_percent": 40,
-    "target_percent": 60,
+    "support_percent": 15,
+    "target_percent": 80,
     "scoring": {
       "answered": 20,
-      "partial": 10,
-      "missed": -10
+      "partial": 5,
+      "vague": -10,
+      "missed": -20
     },
     "current_objections": [
       {
         "objection_id": "r2-o1",
-        "persona_id": "hasan",
-        "name_tr": "Hasan",
-        "text_tr": "Çocuklar fırçalamayı bilmiyor, onlara kim öğretecek?"
+        "persona_id": "ayse",
+        "name_tr": "Ayşe",
+        "text_tr": "Tarlaya gitmeden bir de diş fırçalamaya nasıl vakit ayıracağım?"
       }
     ],
     "history": [
@@ -66,9 +70,9 @@
         "objections": [
           {
             "objection_id": "r1-o1",
-            "persona_id": "cem",
-            "name_tr": "Cem",
-            "text_tr": "Bir kere öğrenince yaparım ama bu malzemeyi her zaman bulabilecek miyim?"
+            "persona_id": "hasan",
+            "name_tr": "Hasan",
+            "text_tr": "Fırça benim değilse ağzıma sürmek istemem, herkese ayrı mı verilecek?"
           }
         ],
         "answer": "Herkese ayrı fırça verelim!",
@@ -79,9 +83,9 @@
           }
         ],
         "feedback_tr": "Öneriniz bir başlangıç, halk nasıl uygulanacağını merak ediyor!",
-        "support_before": 30,
-        "support_after": 40,
-        "support_delta": 10
+        "support_before": 10,
+        "support_after": 15,
+        "support_delta": 5
       }
     ],
     "allowed_actions": [

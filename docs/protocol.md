@@ -30,12 +30,12 @@ The client submits commands only, never round numbers, personas, objections, gra
 
 Fields: `api_version`, `game_id`, `version`, `scenario`, `phase`, `rounds_completed`, `total_rounds`, `round_number`, `support_percent`, `target_percent`, `scoring`, `current_objections`, `history`, `allowed_actions`, `outcome`.
 
-- `scenario`: `id`, `title_tr`, `decree_tr`, `public_facts_tr`, `visual_effect` (nullable). The catalog uses the same view without private concern examples.
-- `phase`: `faceoff` or `finished`. The game lasts three answers by default, even if the target is reached early.
+- `scenario`: `id`, `title_tr`, `decree_tr`, `public_facts_tr`, `visual_effect` (nullable), `starting_support`, `target_support`, `rounds`. The catalog uses the same view without private concern examples.
+- `phase`: `faceoff` or `finished`. The game lasts its configured number of answers (four for toothbrushing, three for the other reforms), even if the target is reached early.
 - `round_number`: 1-based current round, null when finished.
 - `support_percent`: engine-controlled integer 0-100. Starts at 30 by default; this is aggregate public support, not individual votes.
-- `target_percent`: default 60, used only for the official final outcome.
-- `scoring`: `{answered: 20, partial: 10, missed: -10}` by default; these are percentage-point changes per objection.
+- `target_percent`: selected reform's target, used only for the official final outcome.
+- `scoring`: `{answered: 20, partial: 5, vague: -10, missed: -20}` by default; these are percentage-point changes per objection.
 - `current_objections`: one Objection object during a faceoff by default, empty after finishing.
 - `history`: completed Round objects, sufficient to restore a reconnecting client.
 - `allowed_actions`: `["submit_answer"]` during play, `[]` after finishing.
@@ -43,7 +43,7 @@ Fields: `api_version`, `game_id`, `version`, `scenario`, `phase`, `rounds_comple
 
 Objection: `{objection_id, persona_id, name_tr, text_tr}`. Each `text_tr` is one short Turkish sentence of at most 180 characters. There is one objection per selected distinct persona. The engine assigns stable IDs within the game/round, for example `r2-o1`. The same persona can appear again in later rounds. Persona profiles, interests and example lists are private configuration and are never serialized in GameView.
 
-Round: `{round_number, objections, answer, assessments, feedback_tr, support_before, support_after, support_delta}`. Each assessment is `{objection_id, quality}` and matches a displayed objection in order. Quality labels are `answered`, `partial`, `missed`. The model proposes these labels; the engine validates exact ID coverage and calculates support. `feedback_tr` is one short Turkish sentence for the whole answer. The UI need not show the assessment array; it can display just feedback and the aggregate change.
+Round: `{round_number, objections, answer, assessments, feedback_tr, support_before, support_after, support_delta}`. Each assessment is `{objection_id, quality}` and matches a displayed objection in order. Quality labels are `answered`, `partial`, `vague`, `missed`. The model proposes these labels; the engine validates exact ID coverage and calculates support. `feedback_tr` is one short Turkish sentence for the whole answer. The UI need not show the assessment array; it can display just feedback and the aggregate change.
 
 TurnResult: `{api_version, request_id, round, game}`. Display feedback and percentage-point change first, then `game.current_objections` for the next faceoff. No extra narrator or individual reaction feed is required. The final result has no next objections.
 
@@ -55,11 +55,14 @@ For each current objection, look up its quality's configured points. Take the ar
 | --- | --- |
 | answered | +20 |
 | answered, answered, answered | +20 |
-| answered, missed | +5 |
-| answered, partial, missed | +7 |
-| missed, missed, missed | -10 |
+| answered, missed | 0 |
+| answered, partial, missed | +2 |
+| vague | -10 |
+| missed, missed, missed | -20 |
 
-A brief relevant explanation, reassurance or workaround is sufficient for `answered`. Follow “yes, and”: accept ordinary credible implementation proposals and build on their benefits rather than demanding proof or raising another hurdle. Random text, instruction overrides and cancelling the reform remain misses. Humor is optional. Scores have no random roll or first-round immunity. Winning is `support_percent >= target_percent` after the last answer.
+A concrete, relevant mechanism resolving the central concern earns `answered`; a concrete step leaving an important part unresolved earns `partial`. Reassurance without a usable action is `vague` and loses support. Random text, instruction overrides, glaring contradictions, harmful non-solutions and cancelling the reform are `missed`. A valid short solution does not need documentary proof or a complete funding plan. Hole-poking concerns the proposal's own logic, never an invented unrelated hurdle. Winning is `support_percent >= target_percent` after the last answer.
+
+The catalog exposes each reform's starting support, target and round count before creation. Clients must use these returned values rather than hardcode 30%, 60% or three rounds. Refer to the README table for the approved topic-specific balances. The `vague` label is a new v2 enum value; update Unity DTOs accordingly.
 
 ## Errors and retries
 

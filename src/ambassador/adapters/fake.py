@@ -36,6 +36,7 @@ class FakeEvaluator:
             feedback_tr={
                 Quality.ANSWERED: "Bu çözüm günlük işleri kolaylaştıracak, halk reforma ısındı!",
                 Quality.PARTIAL: "Öneriniz bir başlangıç, halk nasıl uygulanacağını merak ediyor!",
-                Quality.MISSED: "Bu cevap günlük kaygıya değinmediği için halk henüz ikna olmadı!",
+                Quality.VAGUE: "Nasıl yapacağımızı söylemeden rahatlamamızı bekliyorsunuz!",
+                Quality.MISSED: "Bu cevap sorunu çözmek yerine görmezden geliyor!",
             }[quality],
         )

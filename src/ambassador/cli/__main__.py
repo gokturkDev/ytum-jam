@@ -91,7 +91,11 @@ async def play(
                 else:
                     print("\nReformcu kralın gündemi:")
                     for index, topic in enumerate(topics, 1):
-                        print(f"  {index}. {topic['title_tr']}")
+                        print(
+                            f"  {index}. {topic['title_tr']} "
+                            f"(%{topic['starting_support']} -> %{topic['target_support']}, "
+                            f"{topic['rounds']} tur)"
+                        )
                     while True:
                         choice = (await ask("Bir reform seçin (çıkmak için /cik): ")).strip()
                         if choice == "/cik":
@@ -119,7 +123,7 @@ async def play(
         points = game["scoring"]
         print(
             f"İyi cevap: {points['answered']:+d}, kısmi: {points['partial']:+d}, "
-            f"alakasız: {points['missed']:+d} yüzde puan."
+            f"yuvarlak: {points['vague']:+d}, çok kötü: {points['missed']:+d} yüzde puan."
         )
         while game["phase"] != "finished":
             show_faceoff(game)

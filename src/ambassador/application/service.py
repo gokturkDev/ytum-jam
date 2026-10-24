@@ -51,7 +51,7 @@ class GameService:
         if not catalog or len(self.scenarios) != len(catalog):
             raise ValueError("Configure unique reform scenarios")
         self.personas = personas
-        self.rules = rules or Rules()
+        self.rules = rules
         self.min_objections = min_objections
         self.max_objections = max_objections
         self.semaphore = asyncio.Semaphore(concurrency)
@@ -80,7 +80,8 @@ class GameService:
     async def create(self, scenario_id: str) -> Game:
         if scenario_id not in self.scenarios:
             raise OperationError("INVALID_SCENARIO", "Böyle bir senaryo yok.", 422)
-        game = Game(self.scenarios[scenario_id], self.rules, self.personas)
+        scenario = self.scenarios[scenario_id]
+        game = Game(scenario, self.rules or scenario.rules, self.personas)
         game.current_objections = await self.within_deadline(self.generate(game))
         self.repository.add(game)
         return copy.deepcopy(game)

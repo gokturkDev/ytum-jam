@@ -11,7 +11,10 @@
       "id": "white_smiles",
       "description_tr": "Halkın sprite ağızları beyaz ve gülümseyen ağızlara dönüşür.",
       "name_updates": []
-    }
+    },
+    "starting_support": 10,
+    "target_support": 80,
+    "rounds": 4
   },
   {
     "id": "abolish_nobility_v1",
@@ -25,7 +28,10 @@
       "id": "remove_crowns",
       "description_tr": "Soyluluk simgesi olan taçlar sprite görsellerinden kaldırılır.",
       "name_updates": []
-    }
+    },
+    "starting_support": 10,
+    "target_support": 70,
+    "rounds": 3
   },
   {
     "id": "schooling_v1",
@@ -39,7 +45,10 @@
       "id": "school_clothes",
       "description_tr": "Çocuk sprite görselleri okul kıyafetli çocuklara dönüşür.",
       "name_updates": []
-    }
+    },
+    "starting_support": 20,
+    "target_support": 65,
+    "rounds": 3
   },
   {
     "id": "clean_streets_v1",
@@ -53,7 +62,10 @@
       "id": "clean_streets",
       "description_tr": "Sokaklardaki çöp görselleri temizlenir.",
       "name_updates": []
-    }
+    },
+    "starting_support": 40,
+    "target_support": 65,
+    "rounds": 3
   },
   {
     "id": "surnames_v1",
@@ -67,7 +79,10 @@
       "id": "show_surnames",
       "description_tr": "Karakterlerin adlarının yanında soyadları görünür.",
       "name_updates": []
-    }
+    },
+    "starting_support": 20,
+    "target_support": 60,
+    "rounds": 3
   },
   {
     "id": "free_expression_v1",
@@ -77,7 +92,10 @@
       "Kralı veya yerleşik fikirleri eleştirmek cezalandırılmayacak.",
       "İfade özgürlüğü tehdit veya şiddet serbestliği anlamına gelmez; anlaşmazlıklar sözle ve adil kurallarla çözülebilir."
     ],
-    "visual_effect": null
+    "visual_effect": null,
+    "starting_support": 20,
+    "target_support": 80,
+    "rounds": 3
   },
   {
     "id": "marriage_consent_v1",
@@ -87,7 +105,10 @@
       "Evlenecek iki kişinin de özgürce evet demesi gerekecek; aile onayı kişilerin rızasının yerine geçmeyecek.",
       "Ailelerin danışmanlığı, törenler ve evlilik devam edebilir; zorlama kabul edilmez."
     ],
-    "visual_effect": null
+    "visual_effect": null,
+    "starting_support": 25,
+    "target_support": 75,
+    "rounds": 3
   },
   {
     "id": "choose_profession_v1",
@@ -97,7 +118,10 @@
       "Çocuklar ailelerinin mesleğini sürdürmeye zorlanmayacak; isteyen aynı mesleği seçebilir.",
       "Ustalık, çıraklık ve meslek öğretmek devam edebilir; ailelerin geçiş kaygıları için çözüm üretilebilir."
     ],
-    "visual_effect": null
+    "visual_effect": null,
+    "starting_support": 30,
+    "target_support": 65,
+    "rounds": 3
   },
   {
     "id": "weekend_rest_v1",
@@ -107,6 +131,9 @@
       "Haftada iki gün dinlenme hakkı getirilecek; temel hizmetler vardiya veya dönüşümlü izinle sürebilir.",
       "Hayvan bakımı ve acil işler tüm toplumun aynı anda işi bırakmasını gerektirmez; iş yükü adil paylaşılabilir."
     ],
-    "visual_effect": null
+    "visual_effect": null,
+    "starting_support": 40,
+    "target_support": 70,
+    "rounds": 3
   }
 ]

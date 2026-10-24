@@ -1,0 +1,159 @@
+{
+  "api_version": "2",
+  "request_id": "00000000-0000-0000-0000-000000000004",
+  "round": {
+    "round_number": 4,
+    "objections": [
+      {
+        "objection_id": "r4-o1",
+        "persona_id": "ayse",
+        "name_tr": "Ayşe",
+        "text_tr": "Dişlerimi yıllardır suyla çalkalıyorum, bir de fırçaya neden para vereyim?"
+      }
+    ],
+    "answer": "Fırçaları köydeki ustalar üretsin!",
+    "assessments": [
+      {
+        "objection_id": "r4-o1",
+        "quality": "partial"
+      }
+    ],
+    "feedback_tr": "Öneriniz bir başlangıç, halk nasıl uygulanacağını merak ediyor!",
+    "support_before": 15,
+    "support_after": 20,
+    "support_delta": 5
+  },
+  "game": {
+    "api_version": "2",
+    "game_id": "dad37d16-fd6e-4ef3-96b6-75c96de3c084",
+    "version": 4,
+    "scenario": {
+      "id": "toothbrushing_v1",
+      "title_tr": "Diş fırçalama",
+      "decree_tr": "Herkes diş fırçalama alışkanlığı kazansın.",
+      "public_facts_tr": [
+        "Amaç ağız bakımını günlük bir alışkanlık yapmak; saray öğretim ve temel malzeme desteğine açık.",
+        "Halkın dişlerini kaybetmesi kader sayılıyor; alışkanlık ve masraf kaygıları konuşularak aşılabilir."
+      ],
+      "visual_effect": {
+        "id": "white_smiles",
+        "description_tr": "Halkın sprite ağızları beyaz ve gülümseyen ağızlara dönüşür.",
+        "name_updates": []
+      },
+      "starting_support": 10,
+      "target_support": 80,
+      "rounds": 4
+    },
+    "phase": "finished",
+    "rounds_completed": 4,
+    "total_rounds": 4,
+    "round_number": null,
+    "support_percent": 20,
+    "target_percent": 80,
+    "scoring": {
+      "answered": 20,
+      "partial": 5,
+      "vague": -10,
+      "missed": -20
+    },
+    "current_objections": [],
+    "history": [
+      {
+        "round_number": 1,
+        "objections": [
+          {
+            "objection_id": "r1-o1",
+            "persona_id": "hasan",
+            "name_tr": "Hasan",
+            "text_tr": "Fırça benim değilse ağzıma sürmek istemem, herkese ayrı mı verilecek?"
+          }
+        ],
+        "answer": "Herkese ayrı fırça verelim!",
+        "assessments": [
+          {
+            "objection_id": "r1-o1",
+            "quality": "partial"
+          }
+        ],
+        "feedback_tr": "Öneriniz bir başlangıç, halk nasıl uygulanacağını merak ediyor!",
+        "support_before": 10,
+        "support_after": 15,
+        "support_delta": 5
+      },
+      {
+        "round_number": 2,
+        "objections": [
+          {
+            "objection_id": "r2-o1",
+            "persona_id": "ayse",
+            "name_tr": "Ayşe",
+            "text_tr": "Tarlaya gitmeden bir de diş fırçalamaya nasıl vakit ayıracağım?"
+          }
+        ],
+        "answer": "Kullanmayı köy meydanında gösterelim!",
+        "assessments": [
+          {
+            "objection_id": "r2-o1",
+            "quality": "answered"
+          }
+        ],
+        "feedback_tr": "Bu çözüm günlük işleri kolaylaştıracak, halk reforma ısındı!",
+        "support_before": 15,
+        "support_after": 35,
+        "support_delta": 20
+      },
+      {
+        "round_number": 3,
+        "objections": [
+          {
+            "objection_id": "r3-o1",
+            "persona_id": "hasan",
+            "name_tr": "Hasan",
+            "text_tr": "Dişim ağrımıyorken neden her gün fırçalayayım?"
+          }
+        ],
+        "answer": "Günde birkaç dakika ayıralım!",
+        "assessments": [
+          {
+            "objection_id": "r3-o1",
+            "quality": "missed"
+          }
+        ],
+        "feedback_tr": "Bu cevap sorunu çözmek yerine görmezden geliyor!",
+        "support_before": 35,
+        "support_after": 15,
+        "support_delta": -20
+      },
+      {
+        "round_number": 4,
+        "objections": [
+          {
+            "objection_id": "r4-o1",
+            "persona_id": "ayse",
+            "name_tr": "Ayşe",
+            "text_tr": "Dişlerimi yıllardır suyla çalkalıyorum, bir de fırçaya neden para vereyim?"
+          }
+        ],
+        "answer": "Fırçaları köydeki ustalar üretsin!",
+        "assessments": [
+          {
+            "objection_id": "r4-o1",
+            "quality": "partial"
+          }
+        ],
+        "feedback_tr": "Öneriniz bir başlangıç, halk nasıl uygulanacağını merak ediyor!",
+        "support_before": 15,
+        "support_after": 20,
+        "support_delta": 5
+      }
+    ],
+    "allowed_actions": [],
+    "outcome": {
+      "won": false,
+      "support_percent": 20,
+      "required_percent": 80,
+      "message_tr": "Reform henüz yeterli destek bulamadı.",
+      "visual_effects": []
+    }
+  }
+}

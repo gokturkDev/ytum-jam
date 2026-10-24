@@ -45,6 +45,9 @@ class ScenarioView(DTO):
     decree_tr: str
     public_facts_tr: list[str]
     visual_effect: VisualEffectView | None
+    starting_support: int
+    target_support: int
+    rounds: int
 
 
 class ObjectionView(DTO):
@@ -73,6 +76,7 @@ class RoundView(DTO):
 class ScoringView(DTO):
     answered: int
     partial: int
+    vague: int
     missed: int
 
 
@@ -153,6 +157,9 @@ def effect_view(effect: VisualEffect, game: Game | None = None) -> VisualEffectV
 
 def scenario_view(scenario: Scenario) -> ScenarioView:
     return ScenarioView(
+        starting_support=scenario.rules.starting_support,
+        target_support=scenario.rules.target_support,
+        rounds=scenario.rules.rounds,
         id=scenario.id,
         title_tr=scenario.title_tr,
         decree_tr=scenario.decree_tr,
@@ -190,6 +197,7 @@ def game_view(game: Game) -> GameView:
         scoring=ScoringView(
             answered=game.rules.answered_points,
             partial=game.rules.partial_points,
+            vague=game.rules.vague_points,
             missed=game.rules.missed_points,
         ),
         current_objections=[objection_view(o) for o in game.current_objections],

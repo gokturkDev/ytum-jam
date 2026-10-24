@@ -1,7 +1,7 @@
 {
   "api_version": "2",
-  "game_id": "8688a9d0-eace-4fe3-9671-03c1917cebce",
-  "version": 3,
+  "game_id": "dad37d16-fd6e-4ef3-96b6-75c96de3c084",
+  "version": 4,
   "scenario": {
     "id": "toothbrushing_v1",
     "title_tr": "Diş fırçalama",
@@ -14,18 +14,22 @@
       "id": "white_smiles",
       "description_tr": "Halkın sprite ağızları beyaz ve gülümseyen ağızlara dönüşür.",
       "name_updates": []
-    }
+    },
+    "starting_support": 10,
+    "target_support": 80,
+    "rounds": 4
   },
   "phase": "finished",
-  "rounds_completed": 3,
-  "total_rounds": 3,
+  "rounds_completed": 4,
+  "total_rounds": 4,
   "round_number": null,
-  "support_percent": 50,
-  "target_percent": 60,
+  "support_percent": 20,
+  "target_percent": 80,
   "scoring": {
     "answered": 20,
-    "partial": 10,
-    "missed": -10
+    "partial": 5,
+    "vague": -10,
+    "missed": -20
   },
   "current_objections": [],
   "history": [
@@ -34,9 +38,9 @@
       "objections": [
         {
           "objection_id": "r1-o1",
-          "persona_id": "cem",
-          "name_tr": "Cem",
-          "text_tr": "Bir kere öğrenince yaparım ama bu malzemeyi her zaman bulabilecek miyim?"
+          "persona_id": "hasan",
+          "name_tr": "Hasan",
+          "text_tr": "Fırça benim değilse ağzıma sürmek istemem, herkese ayrı mı verilecek?"
         }
       ],
       "answer": "Herkese ayrı fırça verelim!",
@@ -47,18 +51,18 @@
         }
       ],
       "feedback_tr": "Öneriniz bir başlangıç, halk nasıl uygulanacağını merak ediyor!",
-      "support_before": 30,
-      "support_after": 40,
-      "support_delta": 10
+      "support_before": 10,
+      "support_after": 15,
+      "support_delta": 5
     },
     {
       "round_number": 2,
       "objections": [
         {
           "objection_id": "r2-o1",
-          "persona_id": "hasan",
-          "name_tr": "Hasan",
-          "text_tr": "Çocuklar fırçalamayı bilmiyor, onlara kim öğretecek?"
+          "persona_id": "ayse",
+          "name_tr": "Ayşe",
+          "text_tr": "Tarlaya gitmeden bir de diş fırçalamaya nasıl vakit ayıracağım?"
         }
       ],
       "answer": "Kullanmayı köy meydanında gösterelim!",
@@ -69,8 +73,8 @@
         }
       ],
       "feedback_tr": "Bu çözüm günlük işleri kolaylaştıracak, halk reforma ısındı!",
-      "support_before": 40,
-      "support_after": 60,
+      "support_before": 15,
+      "support_after": 35,
       "support_delta": 20
     },
     {
@@ -90,17 +94,39 @@
           "quality": "missed"
         }
       ],
-      "feedback_tr": "Bu cevap günlük kaygıya değinmediği için halk henüz ikna olmadı!",
-      "support_before": 60,
-      "support_after": 50,
-      "support_delta": -10
+      "feedback_tr": "Bu cevap sorunu çözmek yerine görmezden geliyor!",
+      "support_before": 35,
+      "support_after": 15,
+      "support_delta": -20
+    },
+    {
+      "round_number": 4,
+      "objections": [
+        {
+          "objection_id": "r4-o1",
+          "persona_id": "ayse",
+          "name_tr": "Ayşe",
+          "text_tr": "Dişlerimi yıllardır suyla çalkalıyorum, bir de fırçaya neden para vereyim?"
+        }
+      ],
+      "answer": "Fırçaları köydeki ustalar üretsin!",
+      "assessments": [
+        {
+          "objection_id": "r4-o1",
+          "quality": "partial"
+        }
+      ],
+      "feedback_tr": "Öneriniz bir başlangıç, halk nasıl uygulanacağını merak ediyor!",
+      "support_before": 15,
+      "support_after": 20,
+      "support_delta": 5
     }
   ],
   "allowed_actions": [],
   "outcome": {
     "won": false,
-    "support_percent": 50,
-    "required_percent": 60,
+    "support_percent": 20,
+    "required_percent": 80,
     "message_tr": "Reform henüz yeterli destek bulamadı.",
     "visual_effects": []
   }

@@ -39,15 +39,15 @@ async def test_http_faceoff_complete_and_replay(client):
     first_body = body(0, "  Çeyrek altın ve protein benden!\n")
     first = (await client.post(path + "/answers", json=first_body)).json()
     assert first["round"]["answer"] == first_body["text"]
-    assert first["round"]["support_delta"] == 10
+    assert first["round"]["support_delta"] == 5
     assert first["round"]["objections"] == game["current_objections"]
     assert first["game"]["round_number"] == 2
     second = (await client.post(path + "/answers", json=body(1))).json()
-    assert second["game"]["support_percent"] == 60
+    assert second["game"]["support_percent"] == 55
     assert second["game"]["outcome"] is None
     third = (await client.post(path + "/answers", json=body(2))).json()
     final = third["game"]
-    assert final["phase"] == "finished" and final["support_percent"] == 50
+    assert final["phase"] == "finished" and final["support_percent"] == 35
     assert final["outcome"]["won"] is False
     assert final["current_objections"] == [] and final["round_number"] is None
     assert final["allowed_actions"] == [] and len(final["history"]) == 3
@@ -63,7 +63,7 @@ async def test_http_faceoff_complete_and_replay(client):
 @pytest.mark.parametrize(
     "quality,expected,won",
     [
-        (Quality.PARTIAL, 60, True),
+        (Quality.PARTIAL, 45, False),
         (Quality.MISSED, 0, False),
         (Quality.ANSWERED, 90, True),
     ],
@@ -157,7 +157,7 @@ async def test_reform_catalog_and_effects_are_awarded_only_on_victory():
     from ambassador.api.app import create_app
     from ambassador.config import Settings
 
-    for starting_support, won in ((50, True), (0, False)):
+    for starting_support, won in ((100, True), (0, False)):
         app = create_app(
             settings=Settings(
                 _env_file=None,

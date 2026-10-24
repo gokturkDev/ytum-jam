@@ -5,6 +5,7 @@ from uuid import uuid4
 
 class Quality(StrEnum):
     MISSED = "missed"
+    VAGUE = "vague"
     PARTIAL = "partial"
     ANSWERED = "answered"
 
@@ -31,31 +32,25 @@ class VisualEffect:
 
 
 @dataclass(frozen=True)
-class Scenario:
-    id: str
-    title_tr: str
-    decree_tr: str
-    public_facts_tr: tuple[str, ...]
-    facts_en: tuple[str, ...]
-    objections_by_persona: tuple[tuple[str, tuple[str, ...]], ...] = ()
-    visual_effect: VisualEffect | None = None
-
-
-@dataclass(frozen=True)
 class Rules:
     starting_support: int = 30
     target_support: int = 60
     rounds: int = 3
     answered_points: int = 20
-    partial_points: int = 10
-    missed_points: int = -10
+    partial_points: int = 5
+    vague_points: int = -10
+    missed_points: int = -20
 
     def __post_init__(self) -> None:
         if not 0 <= self.starting_support <= 100 or not 1 <= self.target_support <= 100:
             raise ValueError("Support percentages must be within bounds")
         if (
             self.rounds < 1
-            or not self.missed_points < 0 <= self.partial_points < self.answered_points
+            or not self.missed_points
+            < self.vague_points
+            < 0
+            <= self.partial_points
+            < self.answered_points
         ):
             raise ValueError("Invalid faceoff rules")
 
@@ -64,7 +59,20 @@ class Rules:
             Quality.ANSWERED: self.answered_points,
             Quality.PARTIAL: self.partial_points,
             Quality.MISSED: self.missed_points,
+            Quality.VAGUE: self.vague_points,
         }[quality]
+
+
+@dataclass(frozen=True)
+class Scenario:
+    id: str
+    title_tr: str
+    decree_tr: str
+    public_facts_tr: tuple[str, ...]
+    facts_en: tuple[str, ...]
+    objections_by_persona: tuple[tuple[str, tuple[str, ...]], ...] = ()
+    visual_effect: VisualEffect | None = None
+    rules: Rules = field(default_factory=Rules)
 
 
 @dataclass(frozen=True)

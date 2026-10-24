@@ -1,5 +1,6 @@
 import logging
 from contextlib import asynccontextmanager
+from dataclasses import replace
 from uuid import UUID
 
 from fastapi import FastAPI, Request
@@ -23,7 +24,6 @@ from ambassador.api.schemas import (
 from ambassador.application.errors import OperationError
 from ambassador.application.service import GameService
 from ambassador.config import Settings
-from ambassador.domain.game import Rules
 from ambassador.scenarios.loader import load_personas, load_scenarios
 
 logger = logging.getLogger(__name__)
@@ -46,19 +46,27 @@ def create_app(service: GameService | None = None, settings: Settings | None = N
                 timeout=settings.provider_timeout_seconds,
             )
             evaluator = OpenAIEvaluator(client, settings.openai_model, settings.max_output_tokens)
+        scenarios = []
+        for scenario in load_scenarios():
+            overrides = {
+                "answered_points": settings.answered_points,
+                "partial_points": settings.partial_points,
+                "vague_points": settings.vague_points,
+                "missed_points": settings.missed_points,
+            }
+            for name, value in (
+                ("starting_support", settings.starting_support),
+                ("target_support", settings.target_support),
+                ("rounds", settings.max_rounds),
+            ):
+                if value is not None:
+                    overrides[name] = value
+            scenarios.append(replace(scenario, rules=replace(scenario.rules, **overrides)))
         service = GameService(
             MemoryRepository(),
             evaluator,
-            load_scenarios(),
+            tuple(scenarios),
             load_personas(settings.personas_file),
-            rules=Rules(
-                starting_support=settings.starting_support,
-                target_support=settings.target_support,
-                rounds=settings.max_rounds,
-                answered_points=settings.answered_points,
-                partial_points=settings.partial_points,
-                missed_points=settings.missed_points,
-            ),
             min_objections=settings.objections_min,
             max_objections=settings.objections_max,
             concurrency=settings.provider_concurrency,

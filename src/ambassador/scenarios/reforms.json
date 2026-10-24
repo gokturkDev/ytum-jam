@@ -31,6 +31,11 @@
     "visual_effect": {
       "id": "white_smiles",
       "description_tr": "Halkın sprite ağızları beyaz ve gülümseyen ağızlara dönüşür."
+    },
+    "rules": {
+      "starting_support": 10,
+      "target_support": 80,
+      "rounds": 4
     }
   },
   {
@@ -65,6 +70,11 @@
     "visual_effect": {
       "id": "remove_crowns",
       "description_tr": "Soyluluk simgesi olan taçlar sprite görsellerinden kaldırılır."
+    },
+    "rules": {
+      "starting_support": 10,
+      "target_support": 70,
+      "rounds": 3
     }
   },
   {
@@ -99,6 +109,11 @@
     "visual_effect": {
       "id": "school_clothes",
       "description_tr": "Çocuk sprite görselleri okul kıyafetli çocuklara dönüşür."
+    },
+    "rules": {
+      "starting_support": 20,
+      "target_support": 65,
+      "rounds": 3
     }
   },
   {
@@ -133,6 +148,11 @@
     "visual_effect": {
       "id": "clean_streets",
       "description_tr": "Sokaklardaki çöp görselleri temizlenir."
+    },
+    "rules": {
+      "starting_support": 40,
+      "target_support": 65,
+      "rounds": 3
     }
   },
   {
@@ -167,6 +187,11 @@
     "visual_effect": {
       "id": "show_surnames",
       "description_tr": "Karakterlerin adlarının yanında soyadları görünür."
+    },
+    "rules": {
+      "starting_support": 20,
+      "target_support": 60,
+      "rounds": 3
     }
   },
   {
@@ -198,7 +223,12 @@
         "Dükkânım hakkında yalan söylenirse derdimi nerede anlatacağım?"
       ]
     },
-    "visual_effect": null
+    "visual_effect": null,
+    "rules": {
+      "starting_support": 20,
+      "target_support": 80,
+      "rounds": 3
+    }
   },
   {
     "id": "marriage_consent_v1",
@@ -229,7 +259,12 @@
         "Aileler birbirine söz vermeden düğün hazırlığına nasıl başlayacak?"
       ]
     },
-    "visual_effect": null
+    "visual_effect": null,
+    "rules": {
+      "starting_support": 25,
+      "target_support": 75,
+      "rounds": 3
+    }
   },
   {
     "id": "choose_profession_v1",
@@ -260,7 +295,12 @@
         "Aileden olmayan bir çırak bulmama kim yardımcı olacak?"
       ]
     },
-    "visual_effect": null
+    "visual_effect": null,
+    "rules": {
+      "starting_support": 30,
+      "target_support": 65,
+      "rounds": 3
+    }
   },
   {
     "id": "weekend_rest_v1",
@@ -291,6 +331,11 @@
         "İzin günlerini sırayla kullanırsak bu hak korunmuş olacak mı?"
       ]
     },
-    "visual_effect": null
+    "visual_effect": null,
+    "rules": {
+      "starting_support": 40,
+      "target_support": 70,
+      "rounds": 3
+    }
   }
 ]

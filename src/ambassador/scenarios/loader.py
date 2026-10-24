@@ -4,7 +4,7 @@ from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from ambassador.domain.game import Persona, Scenario, VisualEffect
+from ambassador.domain.game import Persona, Rules, Scenario, VisualEffect
 
 
 class PersonaData(BaseModel):
@@ -36,6 +36,7 @@ def load_scenarios() -> tuple[Scenario, ...]:
     scenarios = tuple(
         Scenario(
             id=item["id"],
+            rules=Rules(**item["rules"]),
             title_tr=item["title_tr"],
             decree_tr=item["decree_tr"],
             public_facts_tr=tuple(item["public_facts_tr"]),

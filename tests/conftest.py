@@ -8,6 +8,7 @@ from ambassador.adapters.memory import MemoryRepository
 from ambassador.api.app import create_app
 from ambassador.application.service import GameService
 from ambassador.config import Settings
+from ambassador.domain.game import Rules
 from ambassador.scenarios.loader import default_scenario, load_personas
 
 
@@ -19,6 +20,7 @@ def service():
         default_scenario(),
         load_personas(),
         rng=random.Random(7),
+        rules=Rules(),
     )
 
 

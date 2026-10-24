@@ -11,7 +11,7 @@ from ambassador.application.errors import EvaluationError
 from ambassador.ports.evaluator import AnswerDecision, FaceoffContext, ObjectionBatch
 
 logger = logging.getLogger(__name__)
-PROMPT_VERSION = "reforms-v3.0"
+PROMPT_VERSION = "reforms-v3.1"
 M = TypeVar("M", bound=BaseModel)
 
 
