@@ -12,7 +12,7 @@ from ambassador.ports.reform_generator import PersonaConcerns, ReformDraft
 
 
 class FakeEvaluator:
-    """Scripted integration demo, not AI persuasion: +5, +20, -20."""
+    """Scripted integration demo, not AI persuasion: +5, +30, -30."""
 
     async def draft_reform(self, topic: str) -> ReformDraft:
         return ReformDraft(
@@ -45,7 +45,10 @@ class FakeEvaluator:
             objections=[
                 ObjectionProposal(
                     persona_id=p.id,
-                    text_tr=topic_examples.get(p.id, p.objection_examples_tr)[
+                    concern_id=context.concern.id if context.concern else None,
+                    text_tr=context.concern.example_tr
+                    if context.concern
+                    else topic_examples.get(p.id, p.objection_examples_tr)[
                         number % len(topic_examples.get(p.id, p.objection_examples_tr))
                     ],
                 )
@@ -54,15 +57,15 @@ class FakeEvaluator:
         )
 
     async def evaluate(self, context: FaceoffContext) -> AnswerDecision:
-        score = (5, 20, -20)[len(context.game.history) % 3]
+        score = (5, 30, -30)[len(context.game.history) % 3]
         return AnswerDecision(
             assessments=[
                 AssessmentProposal(objection_id=o.id, score=score)
                 for o in context.game.current_objections
             ],
             feedback_tr={
-                20: "Bu çözüm günlük işleri kolaylaştıracak, halk reforma ısındı!",
+                30: "Bu çözüm günlük işleri kolaylaştıracak, halk reforma ısındı!",
                 5: "Öneriniz bir başlangıç, halk nasıl uygulanacağını merak ediyor!",
-                -20: "Bu cevap sorunu çözmek yerine görmezden geliyor!",
+                -30: "Bu cevap sorunu çözmek yerine görmezden geliyor!",
             }[score],
         )

@@ -2,8 +2,8 @@ from dataclasses import dataclass, field
 from enum import StrEnum
 from uuid import uuid4
 
-MIN_SCORE = -20
-MAX_SCORE = 20
+MIN_SCORE = -30
+MAX_SCORE = 30
 
 
 class Phase(StrEnum):
@@ -41,6 +41,13 @@ class Rules:
 
 
 @dataclass(frozen=True)
+class Concern:
+    id: str
+    focus_en: str
+    example_tr: str
+
+
+@dataclass(frozen=True)
 class Scenario:
     id: str
     title_tr: str
@@ -50,6 +57,7 @@ class Scenario:
     objections_by_persona: tuple[tuple[str, tuple[str, ...]], ...] = ()
     visual_effect: VisualEffect | None = None
     rules: Rules = field(default_factory=Rules)
+    concerns: tuple[Concern, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -58,6 +66,7 @@ class Objection:
     persona_id: str
     name_tr: str
     text_tr: str
+    concern_id: str = ""
 
 
 @dataclass(frozen=True)
@@ -67,7 +76,7 @@ class Assessment:
 
     def __post_init__(self) -> None:
         if type(self.score) is not int or not MIN_SCORE <= self.score <= MAX_SCORE:
-            raise ValueError("Assessment score must be an integer from -20 to 20")
+            raise ValueError("Assessment score must be an integer from -30 to 30")
 
 
 @dataclass(frozen=True)

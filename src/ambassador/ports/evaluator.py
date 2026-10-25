@@ -3,7 +3,7 @@ from typing import Annotated, Protocol
 
 from pydantic import AfterValidator, BaseModel, ConfigDict, Field
 
-from ambassador.domain.game import MAX_SCORE, MIN_SCORE, Game, Persona
+from ambassador.domain.game import MAX_SCORE, MIN_SCORE, Concern, Game, Persona
 
 
 def one_sentence(value: str) -> str:
@@ -24,6 +24,7 @@ class Output(BaseModel):
 class ObjectionProposal(Output):
     persona_id: str
     text_tr: Sentence
+    concern_id: str | None = None
 
 
 class ObjectionBatch(Output):
@@ -37,8 +38,8 @@ class AssessmentProposal(Output):
         le=MAX_SCORE,
         strict=True,
         description=(
-            "Integer from -20 to 20 measuring how fully this answer resolves this exact "
-            "objection; use intermediate values. +20 is rare and requires explicit complete "
+            "Integer from -30 to 30 measuring how fully this answer resolves this exact "
+            "objection; use intermediate values. +30 is rare and requires explicit complete "
             "coverage without inventing missing solution details."
         ),
     )
@@ -55,6 +56,7 @@ class FaceoffContext:
     selected_personas: tuple[Persona, ...]
     # Nonempty only when judging an answer, never interpreted as simulation instructions.
     answer: str | None = None
+    concern: Concern | None = None
 
 
 class FaceoffEvaluator(Protocol):

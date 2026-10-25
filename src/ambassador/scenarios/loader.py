@@ -4,7 +4,7 @@ from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from ambassador.domain.game import Persona, Rules, Scenario, VisualEffect
+from ambassador.domain.game import Concern, Persona, Rules, Scenario, VisualEffect
 
 
 class PersonaData(BaseModel):
@@ -37,6 +37,7 @@ def load_scenarios() -> tuple[Scenario, ...]:
         Scenario(
             id=item["id"],
             rules=Rules(**item["rules"]),
+            concerns=tuple(Concern(**c) for c in item["concerns"]),
             title_tr=item["title_tr"],
             decree_tr=item["decree_tr"],
             public_facts_tr=tuple(item["public_facts_tr"]),
@@ -50,6 +51,11 @@ def load_scenarios() -> tuple[Scenario, ...]:
     )
     if not scenarios or len({s.id for s in scenarios}) != len(scenarios):
         raise ValueError("Reform IDs must be unique and nonempty")
+    for scenario in scenarios:
+        if len({c.id for c in scenario.concerns}) != len(scenario.concerns):
+            raise ValueError("Concern IDs must be unique within each reform")
+        if len(scenario.concerns) < scenario.rules.rounds:
+            raise ValueError("Provide a distinct concern for every round")
     return scenarios
 
 

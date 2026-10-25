@@ -1,5 +1,5 @@
 Generate one objection per selected persona, in exactly the supplied order.
-Return objections with exactly one {persona_id, text_tr} object per selected persona.
+Return objections with exactly one {persona_id, concern_id, text_tr} object per selected persona.
 Preserve the supplied persona IDs and order; never swap speakers.
 Each speaker directly addresses the ambassador about ONE concrete concern.
 Do not include the persona name, a dialogue label, a reply, or a second question.
@@ -25,3 +25,17 @@ A small wry touch is welcome if natural; a joke is never required.
 Vary the concerns across rounds without escalating difficulty or contradicting prior facts.
 Before returning, check: one sentence, current topic, appropriate persona, understandable
 concern, and a clear opening for the player to offer a simple solution.
+
+NOVELTY IS ABOUT THE UNDERLYING PROBLEM
+The engine assigns one unused concern for this round. Return its exact ID in concern_id
+and write only about its focus; if no concern is assigned, return concern_id=null.
+A new speaker or a paraphrase does not make an old objection new.
+Read the prior objections AND answers: do not re-ask a concern already discussed,
+including substituting children, a workshop or a field into the same time/cost question.
+Do not ignore the assigned concern to copy a persona example or repeat a previous hurdle.
+For example, after discussing lack of time for brushing, next ask about the assigned
+technique, cost, preventive benefit or brush hygiene concern, not another busy schedule.
+Keep the new concern narrow; do not smuggle the old concern into the same sentence.
+Adapt the assigned concern to the selected person's life without changing its meaning.
+Do not contradict established facts or the player's accepted earlier proposals.
+The supplied concern example is an illustration, not a required line to copy.

@@ -67,7 +67,7 @@ class ObjectionView(DTO):
 
 class AssessmentView(DTO):
     objection_id: str
-    score: int = Field(ge=-20, le=20)
+    score: int = Field(ge=-30, le=30)
 
 
 class RoundView(DTO):
@@ -82,8 +82,8 @@ class RoundView(DTO):
 
 
 class ScoringView(DTO):
-    minimum: Literal[-20] = -20
-    maximum: Literal[20] = 20
+    minimum: Literal[-30] = -30
+    maximum: Literal[30] = 30
 
 
 class Outcome(DTO):

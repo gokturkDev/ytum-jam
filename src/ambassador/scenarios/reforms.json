@@ -36,7 +36,34 @@
       "starting_support": 10,
       "target_support": 80,
       "rounds": 4
-    }
+    },
+    "concerns": [
+      {
+        "id": "cost",
+        "focus_en": "Affording an individual brush; do not ask about time or technique.",
+        "example_tr": "Fırça almaya param yetmezse bu alışkanlığı nasıl kazanacağım?"
+      },
+      {
+        "id": "time",
+        "focus_en": "Finding time in a busy daily routine; not costs or knowing how to brush.",
+        "example_tr": "Sabah işler başlamadan diş fırçalamayı günlük düzene nasıl sığdıracağım?"
+      },
+      {
+        "id": "learning",
+        "focus_en": "Learning the brushing technique; not obtaining equipment.",
+        "example_tr": "Dişlerimi doğru fırçalamayı bana kim gösterecek?"
+      },
+      {
+        "id": "need",
+        "focus_en": "Understanding prevention when teeth do not currently hurt.",
+        "example_tr": "Dişim ağrımıyorken neden her gün fırçalamam gerekiyor?"
+      },
+      {
+        "id": "hygiene",
+        "focus_en": "Keeping each person's brush separate and clean; not general expense.",
+        "example_tr": "Evde fırçalar karışırsa kendi fırçamı nasıl ayırt edeceğim?"
+      }
+    ]
   },
   {
     "id": "abolish_nobility_v1",
@@ -75,7 +102,34 @@
       "starting_support": 10,
       "target_support": 70,
       "rounds": 4
-    }
+    },
+    "concerns": [
+      {
+        "id": "administration",
+        "focus_en": "Who will handle local decisions without inherited authority.",
+        "example_tr": "Soylu bey çekilince köyün ortak işlerine kim karar verecek?"
+      },
+      {
+        "id": "protection",
+        "focus_en": "Village security after dependence on a noble protector.",
+        "example_tr": "Beyin koruması kalkınca köyü kim koruyacak?"
+      },
+      {
+        "id": "livelihood",
+        "focus_en": "Jobs dependent on noble households during the transition.",
+        "example_tr": "Soylu konağında çalışanların geçimi bu değişiklikte ne olacak?"
+      },
+      {
+        "id": "justice",
+        "focus_en": "Ordinary people having a fair hearing in disputes.",
+        "example_tr": "Ayrıcalıklar kalkınca güçlü bir aileyle anlaşmazlıkta sözümüz dinlenecek mi?"
+      },
+      {
+        "id": "taxes",
+        "focus_en": "Whether tax burdens become fairer rather than shifted to villagers.",
+        "example_tr": "Soyluların ayrıcalıkları kalkınca vergi yükü yine köylüye mi kalacak?"
+      }
+    ]
   },
   {
     "id": "schooling_v1",
@@ -114,7 +168,34 @@
       "starting_support": 20,
       "target_support": 65,
       "rounds": 3
-    }
+    },
+    "concerns": [
+      {
+        "id": "family_labor",
+        "focus_en": "Replacing children's contribution to essential family work without child labor.",
+        "example_tr": "Çocuğum okula gidince evin ve tarlanın işlerine nasıl yetişeceğiz?"
+      },
+      {
+        "id": "distance",
+        "focus_en": "Reaching school safely from a distant village; not school cost.",
+        "example_tr": "Okul köyden uzaktaysa çocuklar her gün nasıl gidip gelecek?"
+      },
+      {
+        "id": "materials",
+        "focus_en": "Paying for school books and materials; not lost family labor.",
+        "example_tr": "Defter kitap masrafını karşılayamazsak çocuğum nasıl okuyacak?"
+      },
+      {
+        "id": "usefulness",
+        "focus_en": "Understanding the practical usefulness of reading and learning.",
+        "example_tr": "Ben okumadan geçindim, okul çocuğumun hayatında neyi değiştirecek?"
+      },
+      {
+        "id": "teachers",
+        "focus_en": "Availability of a teacher in the village; not commute or expense.",
+        "example_tr": "Köyde öğretmen yokken çocuklarımıza kim ders verecek?"
+      }
+    ]
   },
   {
     "id": "clean_streets_v1",
@@ -153,7 +234,34 @@
       "starting_support": 40,
       "target_support": 65,
       "rounds": 3
-    }
+    },
+    "concerns": [
+      {
+        "id": "disposal",
+        "focus_en": "An accessible place to put household waste.",
+        "example_tr": "Çöpü sokağa bırakmayacaksak nereye götüreceğiz?"
+      },
+      {
+        "id": "collection",
+        "focus_en": "Who regularly empties collection points; not where the bins are.",
+        "example_tr": "Toplama yerleri dolunca çöpleri kim alacak?"
+      },
+      {
+        "id": "cost",
+        "focus_en": "Fairly sharing the cost of street cleaning.",
+        "example_tr": "Temizliğin masrafı yine küçük esnafın üstüne mi kalacak?"
+      },
+      {
+        "id": "workshop_waste",
+        "focus_en": "Disposing of bulky workshop leftovers separately from household waste.",
+        "example_tr": "Talaş ve büyük atölye artıklarını ev çöpünden ayrı nereye bırakacağız?"
+      },
+      {
+        "id": "fair_enforcement",
+        "focus_en": "Fair treatment of accidental and deliberate littering.",
+        "example_tr": "Çöpü yanlış yere bırakanla bilerek sokağa döken aynı mı tutulacak?"
+      }
+    ]
   },
   {
     "id": "surnames_v1",
@@ -192,7 +300,34 @@
       "starting_support": 20,
       "target_support": 60,
       "rounds": 3
-    }
+    },
+    "concerns": [
+      {
+        "id": "purpose",
+        "focus_en": "The usefulness of surnames when neighbors already know each other.",
+        "example_tr": "Mahalle beni zaten tanıyor, soyadı neyi kolaylaştıracak?"
+      },
+      {
+        "id": "choice",
+        "focus_en": "Freedom to choose a surname rather than having one imposed.",
+        "example_tr": "Soyadımızı kendimiz mi seçeceğiz, bize hazır bir ad mı verilecek?"
+      },
+      {
+        "id": "literacy",
+        "focus_en": "Registering a surname for someone who cannot read or write.",
+        "example_tr": "Okuma yazmam yok, soyadımı kayda nasıl geçireceğim?"
+      },
+      {
+        "id": "old_records",
+        "focus_en": "Keeping old records connected to the same person after adding a surname.",
+        "example_tr": "Eski kayıtlardaki adımla yeni soyadımın aynı kişiye ait olduğu nasıl bilinecek?"
+      },
+      {
+        "id": "duplicates",
+        "focus_en": "Avoiding confusion when two families choose the same surname.",
+        "example_tr": "İki aile aynı soyadını seçerse birbirimize karışmayacak mıyız?"
+      }
+    ]
   },
   {
     "id": "free_expression_v1",
@@ -228,7 +363,34 @@
       "starting_support": 20,
       "target_support": 80,
       "rounds": 4
-    }
+    },
+    "concerns": [
+      {
+        "id": "disagreement",
+        "focus_en": "Keeping ordinary disagreements from turning into fights.",
+        "example_tr": "Herkes fikrini açıkça söylerse mahallede kavga çıkmaz mı?"
+      },
+      {
+        "id": "retaliation",
+        "focus_en": "Protection from loss of work for criticizing a powerful person.",
+        "example_tr": "Ustamı eleştirince işimden olursam bu özgürlüğün bana ne faydası var?"
+      },
+      {
+        "id": "threats",
+        "focus_en": "Distinguishing criticism from threats; not general disagreement.",
+        "example_tr": "Eleştiriyle tehdit arasındaki farkı herkes nasıl öğrenecek?"
+      },
+      {
+        "id": "reputation",
+        "focus_en": "Having a fair response to false accusations or gossip.",
+        "example_tr": "Hakkımda asılsız söz yayılırsa kendimi nasıl savunacağım?"
+      },
+      {
+        "id": "speaking_access",
+        "focus_en": "Ensuring quieter or poorer people can also be heard.",
+        "example_tr": "Meydanda hep güçlülerin sesi çıkarsa bizim fikrimizi kim duyacak?"
+      }
+    ]
   },
   {
     "id": "marriage_consent_v1",
@@ -264,7 +426,34 @@
       "starting_support": 25,
       "target_support": 75,
       "rounds": 3
-    }
+    },
+    "concerns": [
+      {
+        "id": "family_advice",
+        "focus_en": "Preserving voluntary family advice without overriding consent.",
+        "example_tr": "Gençler kendi kararını verirken ailelerin tecrübesini nasıl dinleyecek?"
+      },
+      {
+        "id": "withdrawal_cost",
+        "focus_en": "Handling wedding costs when a person withdraws consent.",
+        "example_tr": "Hazırlıklar bitince biri hayır derse harcanan para ne olacak?"
+      },
+      {
+        "id": "private_consent",
+        "focus_en": "Making it safe for someone to say no without family pressure.",
+        "example_tr": "Ailesinden çekinen birinin gerçekten evet dediğini nasıl anlayacağız?"
+      },
+      {
+        "id": "couple_livelihood",
+        "focus_en": "A consenting couple supporting themselves without family approval.",
+        "example_tr": "Aileleri desteklemeyen iki genç evlenince geçimini nasıl kuracak?"
+      },
+      {
+        "id": "family_conflict",
+        "focus_en": "Resolving tension between families without coercing the couple.",
+        "example_tr": "Gençler anlaşsa da aileler küserse arayı kim düzeltecek?"
+      }
+    ]
   },
   {
     "id": "choose_profession_v1",
@@ -300,7 +489,34 @@
       "starting_support": 30,
       "target_support": 65,
       "rounds": 3
-    }
+    },
+    "concerns": [
+      {
+        "id": "passing_skills",
+        "focus_en": "Passing on a parent's skills without forcing the child into the trade.",
+        "example_tr": "Çocuğum benim mesleğimi seçmezse yıllarca öğrendiğim işi kime aktaracağım?"
+      },
+      {
+        "id": "training",
+        "focus_en": "Finding training in a newly chosen occupation.",
+        "example_tr": "Çocuğum başka meslek isterse o işi kimden öğrenecek?"
+      },
+      {
+        "id": "transition_income",
+        "focus_en": "Supporting someone while they learn a different trade.",
+        "example_tr": "Yeni işi öğrenirken çocuğum geçimini nasıl sağlayacak?"
+      },
+      {
+        "id": "family_work",
+        "focus_en": "Replacing labor in a family farm or workshop without forcing the child back.",
+        "example_tr": "Çocuğum başka işe giderse aile işini kim sürdürecek?"
+      },
+      {
+        "id": "essential_trades",
+        "focus_en": "Keeping essential occupations staffed through voluntary choice.",
+        "example_tr": "Herkes başka işe yönelirse gerekli meslekleri yapan kalacak mı?"
+      }
+    ]
   },
   {
     "id": "weekend_rest_v1",
@@ -336,6 +552,33 @@
       "starting_support": 40,
       "target_support": 70,
       "rounds": 3
-    }
+    },
+    "concerns": [
+      {
+        "id": "animal_care",
+        "focus_en": "Ensuring animals are fed while the responsible worker rests.",
+        "example_tr": "Hayvanlar izin gününde de yem ister, ben nasıl dinleneceğim?"
+      },
+      {
+        "id": "income",
+        "focus_en": "Protecting income when workers take days off.",
+        "example_tr": "İzin günlerinde kazancım azalırsa evin masrafını nasıl karşılayacağım?"
+      },
+      {
+        "id": "harvest",
+        "focus_en": "Handling short seasonal harvest windows without cancelling the rest right.",
+        "example_tr": "Hasat zamanı ürün beklemez, izin günlerini nasıl ayarlayacağız?"
+      },
+      {
+        "id": "access",
+        "focus_en": "Keeping essential shops or services available while workers take turns resting.",
+        "example_tr": "Herkes aynı gün izin yaparsa ihtiyaçlarımızı nereden karşılayacağız?"
+      },
+      {
+        "id": "compliance",
+        "focus_en": "An employer actually allowing workers to take their rest days.",
+        "example_tr": "Ustam izin hakkımı tanımazsa bu düzen benim için nasıl işleyecek?"
+      }
+    ]
   }
 ]
