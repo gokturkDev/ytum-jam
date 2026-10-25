@@ -1,3 +1,6 @@
+import re
+
+from ambassador.domain.game import Persona, Scenario
 from ambassador.ports.evaluator import (
     AnswerDecision,
     AssessmentProposal,
@@ -5,10 +8,35 @@ from ambassador.ports.evaluator import (
     ObjectionBatch,
     ObjectionProposal,
 )
+from ambassador.ports.reform_generator import PersonaConcerns, ReformDraft
 
 
 class FakeEvaluator:
     """Scripted integration demo, not AI persuasion: +5, +20, -20."""
+
+    async def draft_reform(self, topic: str) -> ReformDraft:
+        return ReformDraft(
+            title_tr=topic[:100],
+            decree_tr=f"Kral, {topic[:350]} konusunda halkın yararına yeni bir düzen başlatıyor.",
+            public_facts_tr=[
+                "Reform, alışılmış düzeni halkın yararına değiştirmeyi amaçlıyor.",
+                "Uygulama ayrıntıları halkın kaygıları dinlenerek şekillenecek.",
+            ],
+            facts_en=[
+                "The king is introducing a beneficial reform in a medieval kingdom.",
+                "Practical implementation remains open to the people's suggestions.",
+            ],
+        )
+
+    async def generate_concerns(self, scenario: Scenario, persona: Persona) -> PersonaConcerns:
+        title = re.sub(r"[.!?…\r\n]", " ", scenario.title_tr)[:60].strip()
+        return PersonaConcerns(
+            objections_tr=[
+                f"{title} yüzünden günlük işlerim aksarsa geçimimi nasıl sağlayacağım?",
+                f"{title} için gereken masrafı ailem nasıl karşılayacak?",
+                f"{title} düzenine alışmak için bize kim yardımcı olacak?",
+            ]
+        )
 
     async def generate(self, context: FaceoffContext) -> ObjectionBatch:
         number = len(context.game.history)

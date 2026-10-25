@@ -8,7 +8,9 @@ import openai
 from pydantic import BaseModel, ValidationError
 
 from ambassador.application.errors import EvaluationError
+from ambassador.domain.game import Persona, Scenario
 from ambassador.ports.evaluator import AnswerDecision, FaceoffContext, ObjectionBatch
+from ambassador.ports.reform_generator import PersonaConcerns, ReformDraft
 
 logger = logging.getLogger(__name__)
 PROMPT_VERSION = "reforms-v3.3"
@@ -54,8 +56,33 @@ class OpenAIEvaluator:
     async def evaluate(self, context: FaceoffContext) -> AnswerDecision:
         return await self.request(context, "answer", AnswerDecision)
 
+    async def draft_reform(self, topic: str) -> ReformDraft:
+        instructions = files("ambassador").joinpath("prompts/reform.txt").read_text("utf-8")
+        return await self.request_output(
+            instructions,
+            json.dumps({"untrusted_reform_topic": topic}, ensure_ascii=False),
+            "reform",
+            ReformDraft,
+        )
+
+    async def generate_concerns(self, scenario: Scenario, persona: Persona) -> PersonaConcerns:
+        instructions = files("ambassador").joinpath("prompts/concerns.txt").read_text("utf-8")
+        return await self.request_output(
+            instructions,
+            json.dumps(
+                {"reform": asdict(scenario), "persona": asdict(persona)}, ensure_ascii=False
+            ),
+            "concerns",
+            PersonaConcerns,
+        )
+
     async def request(self, context: FaceoffContext, mode: str, schema: type[M]) -> M:
         instructions, dialogue = build_prompt(context, mode)
+        return await self.request_output(instructions, dialogue, mode, schema)
+
+    async def request_output(
+        self, instructions: str, dialogue: str, mode: str, schema: type[M]
+    ) -> M:
         try:
             raw = await self.client.responses.with_raw_response.parse(
                 model=self.model,

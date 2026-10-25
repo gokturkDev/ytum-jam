@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     max_rounds: int | None = Field(default=None, ge=1, le=10)
     provider_timeout_seconds: float = Field(default=30, gt=0)
     turn_timeout_seconds: float = Field(default=75, gt=0)
+    generation_timeout_seconds: float = Field(default=75, gt=0)
     max_output_tokens: int = Field(default=1200, ge=256)
     server_host: str = "127.0.0.1"
     server_port: int = Field(default=8000, ge=1, le=65535)

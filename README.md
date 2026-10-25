@@ -77,6 +77,8 @@ The current defaults keep `OBJECTIONS_MIN=1` and `OBJECTIONS_MAX=1`. Provider de
 
 Use `GET /v2/scenarios`, `POST /v2/games`, `GET /v2/games/{id}` and `POST /v2/games/{id}/answers`. The old `marriage_v1` abolition scenario is removed. The original handoff is historical; this README describes the current product. See [protocol](docs/protocol.md), [complete examples](docs/examples), `/docs` and `/openapi.json`.
 
+For a session-only generated reform, send `{"topic":"Köylerde ortak fırın kurulması"}` to `POST /v2/games` instead of `scenario_id`. The response includes the complete reform and playable first faceoff. Persona concerns are generated concurrently under the shared provider limit. See [on-demand reform generation](docs/on-demand-reforms.md) for the API, deadlines and session lifecycle.
+
 ```sh
 .venv/bin/python -m pytest -q
 .venv/bin/ruff check src tests

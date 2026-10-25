@@ -24,6 +24,7 @@ from ambassador.api.schemas import (
 from ambassador.application.errors import OperationError
 from ambassador.application.service import GameService
 from ambassador.config import Settings
+from ambassador.domain.game import Rules
 from ambassador.scenarios.loader import load_personas, load_scenarios
 
 logger = logging.getLogger(__name__)
@@ -46,21 +47,22 @@ def create_app(service: GameService | None = None, settings: Settings | None = N
                 timeout=settings.provider_timeout_seconds,
             )
             evaluator = OpenAIEvaluator(client, settings.openai_model, settings.max_output_tokens)
-        scenarios = []
-        for scenario in load_scenarios():
-            overrides = {}
-            for name, value in (
-                ("starting_support", settings.starting_support),
-                ("target_support", settings.target_support),
-                ("rounds", settings.max_rounds),
-            ):
-                if value is not None:
-                    overrides[name] = value
-            scenarios.append(replace(scenario, rules=replace(scenario.rules, **overrides)))
+        overrides = {}
+        for name, value in (
+            ("starting_support", settings.starting_support),
+            ("target_support", settings.target_support),
+            ("rounds", settings.max_rounds),
+        ):
+            if value is not None:
+                overrides[name] = value
+        scenarios = tuple(
+            replace(scenario, rules=replace(scenario.rules, **overrides))
+            for scenario in load_scenarios()
+        )
         service = GameService(
             MemoryRepository(),
             evaluator,
-            tuple(scenarios),
+            scenarios,
             load_personas(settings.personas_file),
             min_objections=settings.objections_min,
             max_objections=settings.objections_max,
@@ -68,6 +70,9 @@ def create_app(service: GameService | None = None, settings: Settings | None = N
             attempt_timeout=settings.provider_timeout_seconds,
             turn_timeout=settings.turn_timeout_seconds,
             transcript_dir=settings.transcript_dir,
+            reform_generator=evaluator,
+            generation_timeout=settings.generation_timeout_seconds,
+            generated_rules=replace(Rules(), **overrides),
         )
 
     @asynccontextmanager
@@ -117,6 +122,9 @@ def create_app(service: GameService | None = None, settings: Settings | None = N
 
     @app.post("/v2/games", response_model=GameView, status_code=201)
     async def create(body: CreateGame):
+        if body.topic is not None:
+            return game_view(await service.create_generated(body.topic))
+        assert body.scenario_id is not None
         return game_view(await service.create(body.scenario_id))
 
     @app.get("/v2/games/{game_id}", response_model=GameView)

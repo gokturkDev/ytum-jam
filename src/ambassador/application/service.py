@@ -5,11 +5,12 @@ import logging
 import random
 import time
 from collections.abc import Awaitable, Callable
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 from typing import TypeVar
+from uuid import uuid4
 
-from pydantic import BaseModel
+from pydantic import BaseModel, TypeAdapter
 
 from ambassador.application.errors import EvaluationError, OperationError
 from ambassador.domain.game import Assessment, Game, Objection, Persona, Phase, Rules, Scenario
@@ -18,6 +19,12 @@ from ambassador.ports.evaluator import (
     FaceoffContext,
     FaceoffEvaluator,
     ObjectionBatch,
+)
+from ambassador.ports.reform_generator import (
+    PersonaConcerns,
+    ReformDraft,
+    ReformGenerator,
+    ReformTopic,
 )
 from ambassador.ports.repository import CommandResult, GameEntry, GameRepository
 
@@ -41,6 +48,9 @@ class GameService:
         turn_timeout: float = 75,
         transcript_dir: str = "",
         rng: random.Random | None = None,
+        reform_generator: ReformGenerator | None = None,
+        generation_timeout: float = 75,
+        generated_rules: Rules | None = None,
     ):
         if not 1 <= min_objections <= max_objections <= 3 or len(personas) < min_objections:
             raise ValueError("Configure 1-3 objections and enough personas")
@@ -59,6 +69,9 @@ class GameService:
         self.turn_timeout = turn_timeout
         self.transcript_dir = transcript_dir
         self.rng = rng or random.Random()
+        self.reform_generator = reform_generator
+        self.generation_timeout = generation_timeout
+        self.generated_rules = generated_rules or rules or Rules()
 
     async def within_deadline(self, work: Awaitable[T]) -> T:
         try:
@@ -86,6 +99,72 @@ class GameService:
         self.repository.add(game)
         return copy.deepcopy(game)
 
+    async def create_generated(self, topic: str) -> Game:
+        try:
+            topic = TypeAdapter(ReformTopic).validate_python(topic)
+        except ValueError:
+            raise OperationError("INVALID_INPUT", "Konu 1-500 karakter olmalı.", 422) from None
+        if self.reform_generator is None:
+            raise OperationError("GENERATION_UNAVAILABLE", "Reform üretimi yapılandırılmamış.", 503)
+        try:
+            async with asyncio.timeout(self.generation_timeout):
+                game = await self.prepare_generated(topic, self.reform_generator)
+        except TimeoutError:
+            raise OperationError(
+                "GENERATION_TIMEOUT", "Reform üretimi zaman aşımına uğradı.", 504, True
+            ) from None
+        except EvaluationError as exc:
+            logger.warning("generation_failure code=%s", exc.code)
+            raise OperationError(
+                exc.code, "Reform hazırlanamadı; tekrar deneyin.", exc.status, exc.retryable
+            ) from None
+        # Publish only after every persona and the first faceoff are ready.
+        self.repository.add(game)
+        return copy.deepcopy(game)
+
+    async def prepare_generated(self, topic: str, generator: ReformGenerator) -> Game:
+        draft = await self.provider_call(
+            lambda: generator.draft_reform(topic), ReformDraft, "draft_reform"
+        )
+        scenario = Scenario(
+            id=f"generated_{uuid4()}",
+            title_tr=draft.title_tr,
+            decree_tr=draft.decree_tr,
+            public_facts_tr=tuple(draft.public_facts_tr),
+            facts_en=tuple(draft.facts_en),
+            rules=self.generated_rules,
+        )
+
+        async def concerns(persona: Persona) -> PersonaConcerns:
+            return await self.provider_call(
+                lambda: generator.generate_concerns(scenario, persona),
+                PersonaConcerns,
+                "generate_concerns",
+            )
+
+        # TaskGroup cancels and drains siblings on any failure or request cancellation.
+        # Unwrap its exception so the usual provider error envelope is preserved.
+        try:
+            async with asyncio.TaskGroup() as group:
+                tasks = [group.create_task(concerns(persona)) for persona in self.personas]
+        except* EvaluationError as failures:
+            raise failures.exceptions[0] from None
+        scenario = replace(
+            scenario,
+            objections_by_persona=tuple(
+                (persona.id, tuple(task.result().objections_tr))
+                for persona, task in zip(self.personas, tasks, strict=True)
+            ),
+        )
+        game = Game(scenario, scenario.rules, self.personas)
+        count = self.rng.randint(self.min_objections, min(self.max_objections, len(game.personas)))
+        examples = dict(scenario.objections_by_persona)
+        game.current_objections = tuple(
+            Objection(f"r1-o{i}", p.id, p.name_tr, examples[p.id][0])
+            for i, p in enumerate(self.rng.sample(game.personas, count), 1)
+        )
+        return game
+
     def entry(self, game_id: str) -> GameEntry:
         entry = self.repository.get(game_id)
         if entry is None:
@@ -102,14 +181,26 @@ class GameService:
         schema: type[M],
         validate: Callable[[M], None],
     ) -> M:
+        return await self.provider_call(
+            lambda: operation(copy.deepcopy(context)), schema, operation.__name__, validate
+        )
+
+    async def provider_call(
+        self,
+        operation: Callable[[], Awaitable[M]],
+        schema: type[M],
+        name: str,
+        validate: Callable[[M], None] | None = None,
+    ) -> M:
         for attempt in range(2):
             started = time.monotonic()
             try:
                 async with self.semaphore:
                     async with asyncio.timeout(self.attempt_timeout):
-                        raw = await operation(copy.deepcopy(context))
+                        raw = await operation()
                 output = schema.model_validate(raw.model_dump())
-                validate(output)
+                if validate is not None:
+                    validate(output)
                 return output
             except (ValueError, AttributeError, TypeError):
                 failure = EvaluationError("INVALID_FACEOFF_OUTPUT")
@@ -122,9 +213,8 @@ class GameService:
                 failure = EvaluationError("PROVIDER_FAILURE", False)
             finally:
                 logger.info(
-                    "faceoff operation=%s round=%s attempt=%s latency=%.3f",
-                    operation.__name__,
-                    len(context.game.history) + 1,
+                    "provider_call operation=%s attempt=%s latency=%.3f",
+                    name,
                     attempt + 1,
                     time.monotonic() - started,
                 )

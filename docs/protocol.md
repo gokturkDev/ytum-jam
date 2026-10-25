@@ -9,10 +9,13 @@ Send UTF-8 JSON with `Content-Type: application/json`. Default base URL: `http:/
 | `GET /health` | none | 200: status, backend, configured; no provider call |
 | `GET /v2/scenarios` | none | 200: ordered ScenarioView array; no provider call |
 | `POST /v2/games` | `{"scenario_id":"toothbrushing_v1"}` | 201: GameView with the first objection |
+| `POST /v2/games` | `{"topic":"Köylerde ortak fırın kurulması"}` | 201: GameView with a generated session-only reform and first faceoff |
 | `GET /v2/games/{game_id}` | none | 200: GameView, read-only |
 | `POST /v2/games/{game_id}/answers` | AnswerCommand | 200: TurnResult including the next faceoff, or final outcome |
 
 Creation generates the first faceoff before publishing a game. It can return a typed provider error. Unlike an answer command, creation has no replay ID; retrying a lost creation response can create a new game, but consumes no player round. Abandoned games disappear on server restart.
+
+Creation requires exactly one non-null `scenario_id` or `topic`. A topic is a strict string of 1-500 Unicode characters after trimming. Generated reforms stay in their game, never enter the catalog and cannot be selected by scenario ID in a new game. Their default rules are 30% starting support, 60% target and three rounds, subject to global overrides. They have no visual effect. See [generation details](on-demand-reforms.md) for concurrency, configuration and examples.
 
 AnswerCommand:
 
@@ -78,8 +81,8 @@ Errors use this envelope, including FastAPI validation errors:
 | 422 | `INVALID_INPUT`, `INVALID_SCENARIO` |
 | 409 | `WRONG_PHASE`, `STALE_VERSION`, `REQUEST_ID_CONFLICT`, `GAME_BUSY` |
 | 502 | `INVALID_FACEOFF_OUTPUT`, `PROVIDER_INCOMPLETE`, `PROVIDER_REFUSAL`, `PROVIDER_FAILURE` |
-| 503 | `PROVIDER_CONFIGURATION`, `PROVIDER_UNAVAILABLE` |
-| 504 | `PROVIDER_TIMEOUT`, `TURN_TIMEOUT` |
+| 503 | `PROVIDER_CONFIGURATION`, `PROVIDER_UNAVAILABLE`, `GENERATION_UNAVAILABLE` |
+| 504 | `PROVIDER_TIMEOUT`, `TURN_TIMEOUT`, `GENERATION_TIMEOUT` |
 
 Respect `retryable`. Keep one client action in flight. For network/time-out/busy retry, reuse the exact body and request UUID; never turn a retry into another answer. The engine checks successful replay results before stale-version validation, so exact replay returns the original TurnResult even if later rounds have completed. Different text or version with a used ID returns `REQUEST_ID_CONFLICT`. Concurrent in-progress mutations return `GAME_BUSY`. Failed commands are not stored as successes and may retry against unchanged state.
 

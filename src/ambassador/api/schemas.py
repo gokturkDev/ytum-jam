@@ -1,9 +1,10 @@
 from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from ambassador.domain.game import Game, Objection, Phase, Round, Scenario, VisualEffect
+from ambassador.ports.reform_generator import ReformTopic
 from ambassador.ports.repository import CommandResult
 
 
@@ -12,7 +13,14 @@ class DTO(BaseModel):
 
 
 class CreateGame(DTO):
-    scenario_id: str = Field(min_length=1, max_length=80, strict=True)
+    scenario_id: str | None = Field(default=None, min_length=1, max_length=80, strict=True)
+    topic: ReformTopic | None = None
+
+    @model_validator(mode="after")
+    def one_source(self) -> "CreateGame":
+        if (self.scenario_id is None) == (self.topic is None):
+            raise ValueError("Provide exactly one of scenario_id or topic")
+        return self
 
 
 class AnswerCommand(DTO):
