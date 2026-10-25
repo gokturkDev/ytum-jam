@@ -11,7 +11,7 @@ from ambassador.application.errors import EvaluationError
 from ambassador.ports.evaluator import AnswerDecision, FaceoffContext, ObjectionBatch
 
 logger = logging.getLogger(__name__)
-PROMPT_VERSION = "reforms-v3.3"
+PROMPT_VERSION = "reforms-v3.4"
 M = TypeVar("M", bound=BaseModel)
 
 
@@ -24,11 +24,19 @@ def build_prompt(context: FaceoffContext, mode: str) -> tuple[str, str]:
     instructions += "\nSelected persona profiles (temporary and configurable):\n"
     instructions += json.dumps([asdict(p) for p in context.selected_personas], ensure_ascii=False)
     if mode == "objections":
-        examples = dict(context.game.scenario.objections_by_persona)
-        instructions += "\nRelevant concern examples for this reform (do not copy verbatim):\n"
-        instructions += json.dumps(
-            {p.id: examples.get(p.id, ()) for p in context.selected_personas}, ensure_ascii=False
-        )
+        if context.concern is not None:
+            instructions += "\nREQUIRED unused concern for this round:\n"
+            instructions += json.dumps(asdict(context.concern), ensure_ascii=False)
+            instructions += (
+                "\nStay on this concern; examples and persona interests must not replace it."
+            )
+        else:
+            examples = dict(context.game.scenario.objections_by_persona)
+            instructions += "\nRelevant concern examples (do not copy verbatim):\n"
+            instructions += json.dumps(
+                {p.id: examples.get(p.id, ()) for p in context.selected_personas},
+                ensure_ascii=False,
+            )
     payload = {"round_number": len(context.game.history) + 1}
     # Previous answers help vary new objections, but never influence this answer's grade.
     if mode == "objections":

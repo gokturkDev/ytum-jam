@@ -2,7 +2,7 @@
 
 A relaxed Turkish persuasion game in a fictional medieval kingdom. A modern-minded king wants to introduce beneficial reforms from above; ordinary people worry about disrupting familiar ways of life. The ambassador listens and helps find workable solutions. The king's good intentions do not make every implementation perfect, and the people are not fools for having concerns.
 
-Each round shows **one short objection**. Answers earn an integer score from -20 to +20 based on how fully they resolve the actual objection. The evaluator reads ordinary wording fairly, without inventing missing crucial solution steps or unrelated obstacles. A proposal solving a different problem can lose support even if it sounds helpful. Random text, empty requests for agreement and cancelling the reform still fail. Humor is restrained and optional; the short feedback after an answer remains.
+Each round shows **one short objection** from a different unused concern, with speaker rotation when possible. Answers earn an integer score from -30 to +30 based on how fully they resolve the actual objection. The evaluator reads ordinary wording fairly, without inventing missing crucial solution steps or unrelated obstacles. A proposal solving a different problem can lose support even if it sounds helpful. Random text, empty requests for agreement and cancelling the reform still fail. Humor is restrained and optional; the short feedback after an answer remains.
 
 ## Setup and play
 
@@ -33,11 +33,11 @@ Choose a reform from the menu, answer its current objection, and submit with a l
 .venv/bin/python -m ambassador.cli --scenario schooling_v1
 ```
 
-For a no-key integration demo, start the server with `LLM_BACKEND=fake`. Its example scores are scripted: +5, +20, -20, repeating. It ignores answer content and does not test AI quality. The CLI always uses real HTTP.
+For a no-key integration demo, start the server with `LLM_BACKEND=fake`. Its example scores are scripted: +5, +30, -30, repeating. It ignores answer content and does not test AI quality. The CLI always uses real HTTP.
 
 ## Reforms and visible changes
 
-The nine selected topics come from `konular-draft.md`. Their public facts, prompt context, example concerns and visual effects live in [reforms.json](src/ambassador/scenarios/reforms.json).
+The nine selected topics come from `konular-draft.md`. Their public facts, five distinct concern focuses per topic, prompt context and visual effects live in [reforms.json](src/ambassador/scenarios/reforms.json).
 
 | Reform ID | Topic | Starting support | Target | Rounds |
 | --- | --- | --- | --- | --- |
@@ -53,13 +53,13 @@ The nine selected topics come from `konular-draft.md`. Their public facts, promp
 
 A game addresses one reform. Topic-specific rules are shown in the menu. Toothbrushing, abolishing nobility and freedom of expression have four rounds; the other six have three. Initial and target percentages are unchanged. No early ending or first-round immunity.
 
-The model proposes an **integer from -20 to +20** per objection. The engine validates the bounds and applies that exact score as percentage points, clamping total support to 0-100. There are no fixed quality buckets:
+The model proposes an **integer from -30 to +30** per objection. The engine validates the bounds and applies that exact score as percentage points, clamping total support to 0-100. There are no fixed quality buckets:
 
 - Negative scores: unrelated, evasive or merely topical answers that leave the actual concern untouched.
 - 0: acknowledges the concern without clear progress.
-- +1 to +10: small or partial coverage with important gaps.
-- +11 to +19: substantial to almost complete coverage.
-- +20: rare, explicit complete coverage of the asked concern without inventing missing steps.
+- +1 to +15: small or partial coverage with important gaps.
+- +16 to +29: substantial to almost complete coverage.
+- +30: rare, explicit complete coverage of the asked concern without inventing missing steps.
 
 Brief answers can score well, but effort, confidence, gifts or mentioning the reform are not substitutes for answering the objection. Feedback explains the actual gap or why the concern is resolved. Missing unrelated policy details never becomes a new hurdle.
 
@@ -88,4 +88,6 @@ One server process/worker, localhost by default. Games and successful response c
 
 The official async OpenAI SDK uses Responses Structured Outputs without temperature/reasoning options. Logs contain model, prompt version, latency, token usage and support changes, never keys. `TRANSCRIPT_DIR` opts into private local player transcripts; `--debug` writes public client responses to stderr. See [playtest notes](docs/playtest.md) for actual verification and quality limits.
 
-The assessment DTO now uses `score` instead of `quality`; `scoring` exposes `minimum: -20` and `maximum: 20`. See the updated v2 protocol before updating another client.
+The assessment DTO now uses `score` instead of `quality`; `scoring` exposes `minimum: -30` and `maximum: 30`. See the updated v2 protocol before updating another client.
+
+Objection variety is tracked by meaning-focused concern IDs, not just wording. The engine chooses an unused focus for each round and passes it to the generator with the prior dialogue; a new speaker cannot silently reset the focus history. Returned concern IDs must match the assigned focus, and exact repeated lines are rejected with the normal bounded retry. The fake backend uses a distinct example for each focus. If configuring more rounds, provide at least as many concern focuses in the topic data. Model wording still needs occasional human review for semantic drift.

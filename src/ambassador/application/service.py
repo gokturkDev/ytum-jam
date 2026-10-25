@@ -50,6 +50,10 @@ class GameService:
         self.scenarios = {s.id: s for s in catalog}
         if not catalog or len(self.scenarios) != len(catalog):
             raise ValueError("Configure unique reform scenarios")
+        for topic in catalog:
+            rounds = rules.rounds if rules else topic.rules.rounds
+            if topic.concerns and len(topic.concerns) < rounds:
+                raise ValueError("Provide a distinct concern for every configured round")
         self.personas = personas
         self.rules = rules
         self.min_objections = min_objections
@@ -135,16 +139,35 @@ class GameService:
 
     async def generate(self, game: Game) -> tuple[Objection, ...]:
         count = self.rng.randint(self.min_objections, min(self.max_objections, len(game.personas)))
-        personas = tuple(self.rng.sample(game.personas, count))
-        context = FaceoffContext(copy.deepcopy(game), personas)
+        previous_speakers = (
+            {o.persona_id for o in game.history[-1].objections} if game.history else set()
+        )
+        different_speakers = tuple(p for p in game.personas if p.id not in previous_speakers)
+        pool = different_speakers if len(different_speakers) >= count else game.personas
+        personas = tuple(self.rng.sample(pool, count))
+        used = {o.concern_id for r in game.history for o in r.objections}
+        available = [c for c in game.scenario.concerns if c.id not in used]
+        concern = self.rng.choice(available) if available else None
+        context = FaceoffContext(copy.deepcopy(game), personas, concern=concern)
 
         def validate(output: ObjectionBatch) -> None:
             if [o.persona_id for o in output.objections] != [p.id for p in personas]:
                 raise ValueError("One objection per selected persona required")
+            if any(o.concern_id != (concern.id if concern else None) for o in output.objections):
+                raise ValueError("Objections must use the assigned unused concern")
+            prior_lines = {o.text_tr.casefold().strip() for r in game.history for o in r.objections}
+            if any(o.text_tr.casefold().strip() in prior_lines for o in output.objections):
+                raise ValueError("An earlier objection was repeated verbatim")
 
         output = await self.call(self.evaluator.generate, context, ObjectionBatch, validate)
         return tuple(
-            Objection(f"r{len(game.history) + 1}-o{i}", p.id, p.name_tr, proposal.text_tr)
+            Objection(
+                f"r{len(game.history) + 1}-o{i}",
+                p.id,
+                p.name_tr,
+                proposal.text_tr,
+                concern.id if concern else "",
+            )
             for i, (p, proposal) in enumerate(zip(personas, output.objections, strict=True), 1)
         )
 

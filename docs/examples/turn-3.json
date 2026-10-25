@@ -6,26 +6,26 @@
     "objections": [
       {
         "objection_id": "r3-o1",
-        "persona_id": "hasan",
-        "name_tr": "Hasan",
-        "text_tr": "Dişim ağrımıyorken neden her gün fırçalayayım?"
+        "persona_id": "ayse",
+        "name_tr": "Ayşe",
+        "text_tr": "Evde fırçalar karışırsa kendi fırçamı nasıl ayırt edeceğim?"
       }
     ],
     "answer": "Günde birkaç dakika ayıralım!",
     "assessments": [
       {
         "objection_id": "r3-o1",
-        "score": -20
+        "score": -30
       }
     ],
     "feedback_tr": "Bu cevap sorunu çözmek yerine görmezden geliyor!",
-    "support_before": 35,
+    "support_before": 45,
     "support_after": 15,
-    "support_delta": -20
+    "support_delta": -30
   },
   "game": {
     "api_version": "2",
-    "game_id": "29420241-bad2-46f3-a555-f138eb9b7638",
+    "game_id": "1ae8c5e8-a642-430d-b7c4-c97f76b943da",
     "version": 3,
     "scenario": {
       "id": "toothbrushing_v1",
@@ -51,15 +51,15 @@
     "support_percent": 15,
     "target_percent": 80,
     "scoring": {
-      "minimum": -20,
-      "maximum": 20
+      "minimum": -30,
+      "maximum": 30
     },
     "current_objections": [
       {
         "objection_id": "r4-o1",
-        "persona_id": "cem",
-        "name_tr": "Cem",
-        "text_tr": "Bir kere öğrenince yaparım ama bu malzemeyi her zaman bulabilecek miyim?"
+        "persona_id": "hasan",
+        "name_tr": "Hasan",
+        "text_tr": "Sabah işler başlamadan diş fırçalamayı günlük düzene nasıl sığdıracağım?"
       }
     ],
     "history": [
@@ -68,9 +68,9 @@
         "objections": [
           {
             "objection_id": "r1-o1",
-            "persona_id": "cem",
-            "name_tr": "Cem",
-            "text_tr": "Bir kere öğrenince yaparım ama bu malzemeyi her zaman bulabilecek miyim?"
+            "persona_id": "ayse",
+            "name_tr": "Ayşe",
+            "text_tr": "Dişim ağrımıyorken neden her gün fırçalamam gerekiyor?"
           }
         ],
         "answer": "Herkese ayrı fırça verelim!",
@@ -92,42 +92,42 @@
             "objection_id": "r2-o1",
             "persona_id": "hasan",
             "name_tr": "Hasan",
-            "text_tr": "Çocuklar fırçalamayı bilmiyor, onlara kim öğretecek?"
+            "text_tr": "Fırça almaya param yetmezse bu alışkanlığı nasıl kazanacağım?"
           }
         ],
         "answer": "Kullanmayı köy meydanında gösterelim!",
         "assessments": [
           {
             "objection_id": "r2-o1",
-            "score": 20
+            "score": 30
           }
         ],
         "feedback_tr": "Bu çözüm günlük işleri kolaylaştıracak, halk reforma ısındı!",
         "support_before": 15,
-        "support_after": 35,
-        "support_delta": 20
+        "support_after": 45,
+        "support_delta": 30
       },
       {
         "round_number": 3,
         "objections": [
           {
             "objection_id": "r3-o1",
-            "persona_id": "hasan",
-            "name_tr": "Hasan",
-            "text_tr": "Dişim ağrımıyorken neden her gün fırçalayayım?"
+            "persona_id": "ayse",
+            "name_tr": "Ayşe",
+            "text_tr": "Evde fırçalar karışırsa kendi fırçamı nasıl ayırt edeceğim?"
           }
         ],
         "answer": "Günde birkaç dakika ayıralım!",
         "assessments": [
           {
             "objection_id": "r3-o1",
-            "score": -20
+            "score": -30
           }
         ],
         "feedback_tr": "Bu cevap sorunu çözmek yerine görmezden geliyor!",
-        "support_before": 35,
+        "support_before": 45,
         "support_after": 15,
-        "support_delta": -20
+        "support_delta": -30
       }
     ],
     "allowed_actions": [

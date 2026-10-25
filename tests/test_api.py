@@ -42,7 +42,7 @@ async def test_http_faceoff_complete_and_replay(client):
     assert first["round"]["objections"] == game["current_objections"]
     assert first["game"]["round_number"] == 2
     second = (await client.post(path + "/answers", json=body(1))).json()
-    assert second["game"]["support_percent"] == 55
+    assert second["game"]["support_percent"] == 65
     assert second["game"]["outcome"] is None
     third = (await client.post(path + "/answers", json=body(2))).json()
     final = third["game"]

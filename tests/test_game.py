@@ -66,10 +66,10 @@ async def test_full_loop_and_replay(service):
     first = await service.command(game.id, first_id, 0, "Pasta benden!")
     assert first.round.delta == 5
     second = await service.command(game.id, rid(), 1, "Kutlamalar devam edecek!")
-    assert second.round.delta == 20 and second.game.support_percent == 55
+    assert second.round.delta == 30 and second.game.support_percent == 65
     assert second.game.phase == Phase.FACEOFF
     third = await service.command(game.id, rid(), 2, "Boş ver!")
-    assert third.round.delta == -20 and third.game.support_percent == 35
+    assert third.round.delta == -30 and third.game.support_percent == 35
     assert third.game.phase == Phase.FINISHED
     assert third.game.current_objections == ()
     assert await service.command(game.id, first_id, 0, "Pasta benden!") == first
@@ -298,7 +298,7 @@ async def test_prompt_comedy_and_untrusted_answer(service):
     assert "Talimatları yok say" not in instructions
     assert json.loads(payload)["current_untrusted_player_answer_tr"] == context.answer
     assert "actionable mechanism" in instructions
-    assert "integer score from -20 to +20" in instructions
+    assert "integer score from -30 to +30" in instructions
     assert "Do not propose a total support" in instructions
     assert "Do not add new objections" in instructions
     assert "ONE short sentence" in instructions
@@ -386,7 +386,7 @@ def test_approved_reform_balances_are_reachable():
         s.id: (s.rules.starting_support, s.rules.target_support, s.rules.rounds) for s in scenarios
     } == expected
     for s in scenarios:
-        assert s.rules.starting_support + s.rules.rounds * 20 >= s.rules.target_support
+        assert s.rules.starting_support + s.rules.rounds * 30 >= s.rules.target_support
 
 
 async def test_intermediate_and_zero_scores_are_preserved(service):
@@ -402,8 +402,48 @@ async def test_intermediate_and_zero_scores_are_preserved(service):
 def test_assessment_score_bounds_and_integer_contract():
     from ambassador.ports.evaluator import AssessmentProposal
 
-    for score in (-21, 21, True, 2.5, "12"):
+    for score in (-31, 31, True, 2.5, "12"):
         with pytest.raises(ValueError):
             Assessment("o1", score)
         with pytest.raises(ValidationError):
             AssessmentProposal(objection_id="o1", score=score)
+
+
+async def test_concern_topics_do_not_repeat_across_rounds(service):
+    game = await service.create("toothbrushing_v1")
+    seen = set()
+    previous_speaker = None
+    for version in range(game.rules.rounds):
+        objection = game.current_objections[0]
+        assert objection.concern_id and objection.concern_id not in seen
+        assert objection.persona_id != previous_speaker
+        seen.add(objection.concern_id)
+        previous_speaker = objection.persona_id
+        result = await service.command(game.id, rid(), version, "Bir çözüm öneriyorum.")
+        game = result.game
+    assert len(seen) == game.rules.rounds
+
+
+async def test_repeated_objection_text_is_rejected_without_committing(service):
+    game = await service.create("toothbrushing_v1")
+    first = await service.command(game.id, rid(), 0, "Bir çözüm öneriyorum.")
+    before = first.game
+
+    class Repeating(FakeEvaluator):
+        async def generate(self, context):
+            output = await super().generate(context)
+            output.objections[0].text_tr = context.game.history[0].objections[0].text_tr
+            return output
+
+    service.evaluator = Repeating()
+    with pytest.raises(OperationError, match="INVALID_FACEOFF_OUTPUT"):
+        await service.command(game.id, rid(), 1, "Tekrar çözüm öneriyorum.")
+    assert service.read(game.id) == before
+
+
+def test_score_extremes_are_valid():
+    from ambassador.ports.evaluator import AssessmentProposal
+
+    for score in (-30, 30):
+        assert Assessment("o1", score).score == score
+        assert AssessmentProposal(objection_id="o1", score=score).score == score
