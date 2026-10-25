@@ -1,14 +1,43 @@
 # Reform playtest notes
 
-Current behavior: one short objection per turn, selected from a previously unused concern focus, and one short feedback sentence. Scores are integers from -30 to +30 based on coverage of that exact objection. Prompt version: `reforms-v3.4`.
+Current behavior: one short objection per turn, selected from a previously unused concern focus, and one short feedback sentence. Scores are integers from -30 to +30 based on coverage of that exact objection. Even a tentative helpful hint earns positive partial credit. Prompt version: `reforms-v3.5`.
 
 ## Verification
 
-76 automated tests pass on macOS arm64 / Python 3.14.8. Ruff lint/formatting and dependency checks pass. Existing transaction, retries, timeouts, cancellation, strict score bounds/types, intermediate/zero score preservation, clamping, topic selection, both endings and real-HTTP CLI checks remain. Added checks cover non-repeating concern IDs, speaker rotation, rejection of verbatim repeated objections without committing a turn, and valid -30/+30 extremes. All nine configured targets remain reachable.
+99 automated tests pass on macOS arm64 / Python 3.14.8. Ruff lint/formatting checks pass. Existing transaction, retries, timeouts, cancellation, strict score bounds/types, intermediate/zero score preservation, clamping, topic selection, both endings and real-HTTP CLI checks remain. Checks also cover non-repeating concern IDs, speaker rotation, rejection of verbatim repeated objections without committing a turn, valid -30/+30 extremes and session-only reform generation. All nine configured targets remain reachable.
 
 Toothbrushing, abolishing nobility and freedom of expression remain four rounds; the other six remain three. Initial and target support percentages are unchanged. Each bundled topic now contains five distinct concern focuses. Configuration must provide at least one focus per round.
 
-## End-to-end reproduction and live check
+## Helpful-hint scoring check: v3.5
+
+This is a small prompt calibration: relevant hints receive positive partial credit even
+when the player leaves implementation details open. The engine still applies the model's
+validated integer directly; score bounds, targets, round counts and full-coverage requirements
+are unchanged. Length alone earns no bonus. Feedback should welcome the useful direction
+before identifying a gap in the original concern.
+
+Model: `gpt-4o-mini`, key loaded privately from `.env`. The issue was reproduced through a real
+local HTTP server, creating games and submitting answers through the public endpoints. The
+test selected one existing concern per scenario and one round to isolate grading. The original
+displayed objections, answers and initial game states were then replayed through the same HTTP
+answer endpoint after the prompt change.
+
+| Displayed concern | Player answer | Before | After |
+| --- | --- | --- | --- |
+| Cannot afford a toothbrush | Sarayın kasası da halk için var. | -20 | +10 |
+| School is far from the village | Köyün arabalarını bir düşünelim. | -15 | +10 |
+| Distinguishing household brushes | Renkler bu işte işimize yarayabilir. | +8 | +5 |
+
+The funding and transport hints previously lost support because they lacked a complete plan.
+They now receive small positive scores without pretending that free brushes or a complete
+transport system were offered. The color hint is a check outside the new calibration examples.
+An additional care/rest check gave +12 to a longer answer suggesting help from neighbors,
++30 to explicit rotating animal care, and -30 each to an unrelated crown and withholding feed.
+A supportive restatement with no helpful hint received 0 after clarifying that mere
+incompleteness is not evasion. The color hint received +8 on an earlier run and +5 on the
+final run; these live observations are qualitative checks, not deterministic model guarantees.
+
+## Earlier diversity playtest: v3.4
 
 Model: `gpt-4o-mini`, key loaded privately from `.env`. Both runs used the real local HTTP server and the same routes as the terminal client.
 
@@ -34,7 +63,8 @@ This prevents selecting the same configured focus twice. It does not constitute 
 ## Manual checks
 
 - Answer a question with a concrete proposal that solves a different problem: it should not receive positive credit merely for mentioning the reform.
-- Compare a partial idea, a substantial but incomplete solution and full coverage. Expect intermediate integers; +30 remains reserved for explicit full coverage without invented missing steps.
+- Try a tentative helpful hint with implementation details missing: expect small positive credit and feedback acknowledging the useful direction.
+- Compare a partial idea, a substantial but incomplete solution and full coverage. Expect intermediate integers; +30 remains reserved for full coverage without invented missing steps.
 - Confirm the next objection raises a different concern, not a new person's version of the same cost/time/family-work question.
 - Make an unrelated or harmful suggestion and check for a clear negative score and appropriate feedback.
 - Verify that 0 consumes a round without changing support, and exact successful request replay never awards a second gain.

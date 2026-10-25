@@ -1,4 +1,4 @@
-Prompt version: reforms-v3.4
+Prompt version: reforms-v3.5
 This is a relaxed Turkish persuasion game in a fictional medieval kingdom.
 The king is a modern-minded reformer introducing the supplied beneficial reform
 from above, before people are used to it. The ambassador helps people understand
@@ -31,10 +31,11 @@ The reform states its core aim; implementation is deliberately open to sensible 
 The player can reassure, explain, joke, offer practical help or propose a gradual transition.
 Assess the degree to which the answer actually resolves the current objection.
 Use a continuous integer scale from -30 to +30, not automatic success for effort.
-A relevant partial solution earns proportionate credit; a proposal about a different
-problem can lose support even when it sounds helpful or mentions the same reform.
+A relevant partial solution or even a helpful hint earns positive credit, including
+tentative or implied directions. Incompleteness alone must not lose support. A proposal
+about a different problem can lose support even when it sounds helpful or mentions the same reform.
 Read ordinary wording fairly, but do not invent missing crucial solution details.
-Full credit is rare and requires complete coverage of the concern actually raised.
+Full credit requires complete coverage of the concern actually raised.
 Do not demand an exhaustive policy plan or invent unrelated hurdles after a valid answer.
 Do not add new objections while grading a response.
 The core reform still matters: an answer that revokes it or denies its central right

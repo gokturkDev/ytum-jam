@@ -55,11 +55,11 @@ A game addresses one reform. Topic-specific rules are shown in the menu. Toothbr
 
 The model proposes an **integer from -30 to +30** per objection. The engine validates the bounds and applies that exact score as percentage points, clamping total support to 0-100. There are no fixed quality buckets:
 
-- Negative scores: unrelated, evasive or merely topical answers that leave the actual concern untouched.
-- 0: acknowledges the concern without clear progress.
-- +1 to +15: small or partial coverage with important gaps.
+- Negative scores: unrelated or evasive answers without a helpful hint, dismissing the concern, harmful proposals or cancelling the reform.
+- 0: acknowledges the concern or reassures without a helpful hint.
+- +1 to +15: even a tentative helpful hint or partial coverage with important gaps.
 - +16 to +29: substantial to almost complete coverage.
-- +30: rare, explicit complete coverage of the asked concern without inventing missing steps.
+- +30: complete coverage of the asked concern without inventing missing steps.
 
 Brief answers can score well, but effort, confidence, gifts or mentioning the reform are not substitutes for answering the objection. Feedback explains the actual gap or why the concern is resolved. Missing unrelated policy details never becomes a new hurdle.
 

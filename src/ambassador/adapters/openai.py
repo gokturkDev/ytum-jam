@@ -13,7 +13,7 @@ from ambassador.ports.evaluator import AnswerDecision, FaceoffContext, Objection
 from ambassador.ports.reform_generator import PersonaConcerns, ReformDraft
 
 logger = logging.getLogger(__name__)
-PROMPT_VERSION = "reforms-v3.4"
+PROMPT_VERSION = "reforms-v3.5"
 M = TypeVar("M", bound=BaseModel)
 
 

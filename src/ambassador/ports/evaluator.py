@@ -39,7 +39,7 @@ class AssessmentProposal(Output):
         strict=True,
         description=(
             "Integer from -30 to 30 measuring how fully this answer resolves this exact "
-            "objection; use intermediate values. +30 is rare and requires explicit complete "
+            "objection; even a helpful hint earns positive partial credit. +30 requires complete "
             "coverage without inventing missing solution details."
         ),
     )
